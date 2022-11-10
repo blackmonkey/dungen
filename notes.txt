@@ -38,14 +38,6 @@ Add the concept of length to edges and a theme setting to bias for long or short
 
 Add level entrances as room features.
 
-
 Refactor other dialogs to extract HTML to functions.
 
-
 Map library and dungen derived stocker.
-
-
-
-
-
-
