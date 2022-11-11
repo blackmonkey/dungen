@@ -6,65 +6,48 @@
 	<title>Hiring hall</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
-<body>
+<body class="container-fluid">
+	<h3>Hiring Hall</h3>
+	<p>Retainers and hirelings for old school dungeon crawling, a generator by Ed Allen, v 1.3</p>
+
+	<input id="hyperborea" type="checkbox"> Use Hyperborean races and classes for AS&SH?</input><br><br>
+	<button id="generate1d6">Generate 1D6 available hirelings</button><br>
+	<button id="add10">Add ten more hirelings</button><br>
+	<textarea id="list" rows=40 cols=80></textarea><br>
+	Characters with a reason to hire on should get a shift in favor of hiring on their reaction rolls.<br><br>
+	Stat rolls are straight 3D6, so some classed characters may not meet minima according to particular rules sets.<br>
+	<br>
+	Equipment is still a work in progress, and will never be a perfect match, since rules sets differ. If a class is
+	inappropriate for your rules set, or the equipment is wrong, tweak or don't use the character.<br><br>
+	The names of people, places and especially organizations get a bit dark and florid, since I used the namer directly
+	from DunGen where it is designed to name NPCs encountered in a dungeon, more often than not cultists and villains
+	and such. I'll probably make a milder variant that makes fewer torchbearers from the Blood Drinking Cult of
+	Everlasting Pain* and such.<br><br>
+	*I don't think you can quite get that, but it's aimed at that vein.<br><br>
+	<p>The <b>Hyperborean</b> variant content race and class names are from the game <a href="http://www.hyperborea.tv/">
+		Astonishing Swordsmen and Sorcerers of Hyperborea</a>, by Jeffrey P. Talanian, &#x000A9; 2017 North Wind Adventures,
+		LLC. No claim made or implied. The adaptation so far is pretty loose, classed characters will have some illegal
+		equipment, insufficient class prime requisites, inexact HD rolled for HP, non-culture derived names, etcetera. But
+		at least they won't be elves.
+	</p>
+
+	<h4>Related Generators</h4>
+	<p>Want a quick point crawl map for your players to explore? Try <a href="dungen.html">DunGen</a>.</p>
+	<p>Want populate a hand drawn map or a map image you load from the internet? Try <a href="dunmap.html">DunMap</a>.</p>
+	<br>
+	<h4>My Blogs & how to give feedback</h4>
+	<p><a href="https://sites.google.com/site/hobbyhovel">Ed's Hobby Hovel</a> - Some things I made: Rencounter skirmish
+		rules, etc</p>
+	<p> or you can leave a comment on a post on my blog <a href="http://geekruminations.blogspot.com">Ruminations of a
+			Geek</a>.</p>
+	<p>I'm @edallen on Twitter.</p>
+	<p>I'm on gmail as edallen1.</p>
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-	<h3 style="padding-left: 50px"> <b>Hiring Hall</b> <small>Retainers and hirelings for old school dungeon crawling, a
-			generator by Ed Allen, v 1.3</h3>
-	<div class="container-fluid">
-		<input id="hyperborea" type="checkbox"> Use Hyperborean races and classes for AS&SH?</input><br><br>
-		<button id="generate1d6">Generate 1D6 available hirelings</button><br>
-		<button id="add10">Add ten more hirelings</button><br>
-		<textarea id="list" rows=40 cols=80></textarea>
-
-
-		<br>
-		Characters with a reason to hire on should get a shift in favor of hiring on their reaction rolls.
-		<br><br>
-		Stat rolls are straight 3D6, so some classed characters may not meet minima according to particular rules sets.
-		<br>
-		<br>
-		Equipment is still a work in progress, and will never be a perfect match, since rules sets differ.
-		If a class is inappropriate for your rules set, or the equipment is wrong, tweak or don't use the character.
-
-		<br>
-		<br>
-		The names of people, places and especially organizations get a bit dark and florid, since I used the namer directly
-		from DunGen where it is designed to name NPCs encountered in a dungeon, more often than not cultists and villains
-		and such.
-		I'll probably make a milder variant that makes fewer torchbearers from the Blood Drinking Cult of Everlasting Pain*
-		and such.
-		<br><br>
-		*I don't think you can quite get that, but it's aimed at that vein.
-		<br><br>
-		<p>
-			The <b>Hyperborean</b> variant content race and class names are from the game <a
-				href="http://www.hyperborea.tv/">Astonishing Swordsmen and Sorcerers of Hyperborea</a>, by Jeffrey P. Talanian,
-			&#x000A9; 2017 North Wind Adventures, LLC.
-			No claim made or implied. The adaptation so far is pretty loose, classed characters will have some illegal
-			equipment, insufficient class prime requisites, inexact HD rolled for HP, non-culture derived names, etcetera. But
-			at least they won't be elves.
-		</p>
-
-		<h4>Related Generators</h4>
-		<p>Want a quick point crawl map for your players to explore? Try <a href="dungen.html">DunGen</a>.</p>
-		<p>Want populate a hand drawn map or a map image you load from the internet? Try <a href="dunmap.html">DunMap</a>.
-		</p>
-		<br>
-		<h4>My Blogs & how to give feedback</h4>
-		<p><a href="https://sites.google.com/site/hobbyhovel">Ed's Hobby Hovel</a> - Some things I made: Rencounter skirmish
-			rules, etc</p>
-		<p> or you can leave a comment on a post on my blog <a href="http://geekruminations.blogspot.com">Ruminations of a
-				Geek</a>.</p>
-		<p>I'm @edallen on Twitter.</p>
-		<p>I'm on gmail as edallen1.</p>
-	</div>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="js/dungen.js"></script>
 	<script type="text/javascript" src="js/dungen_stock.js"></script>
 	<script type="text/javascript" src="js/dungen_names.js"></script>
 	<script type="text/javascript" src="js/hire.js"></script>
-
 </body>
-
-
 </html>
