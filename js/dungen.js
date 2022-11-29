@@ -34,14 +34,7 @@ var DG = {
 	// clearNotes: function () {
 	//   $("#notes").trigger("clearText");
 	// },
-	scrollToKey: function () {
-		var tablePosition = $("#dungeon_key").position();
-		var scrollTop = tablePosition.top - 50;
-		$("html, body").animate({ scrollTop: scrollTop });
-	},
-	scrollToTop: function () {
-		$("html, body").animate({ scrollTop: "20px" });
-	},
+
 	container: document.getElementById('dungeon'),
 	// Text utility functions
 	brToLf: function (text) {

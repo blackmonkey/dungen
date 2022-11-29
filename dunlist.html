@@ -3,22 +3,50 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>DunList Mobile Dungeon Stocker</title>
+	<title>DunList - Mobile Dungeon Stocker</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<link href="vis/vis.css" rel="stylesheet" type="text/css" />
 	<link href="css/dungen.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="container-fluid">
-	<h3>DunList</h3>
-	<p>Mobile Dungeon Stocklist by Ed Allen</p>
-	<p>Related:<a href="dungen.html">DunGen</a>, <a href="dunmap.html">DunMap</a> and <a href="hire.html">Hiring Hall</a></p>
-	<p>Contact me: @edallen on Twitter, or comment on my blog <a href="http://geekruminations.blogspot.com">Ruminations of a
-	Geek</a></p>
-	<p>Choose the Level. Enter your map's URL and click Load Map or pick one from the menu. When you see the map, click in
-		rooms to place room numbers and drag to reposition. Contents for rooms will randomly generate as you place them. The
-		node editor will let you edit or reroll contents. </p>
-	<button id="scroll-to-key" class="fixed-nav">Key</button>
-	<button id="scroll-to-top" class="fixed-nav" style="display: none">Top</button>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">DunList</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="main_nav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="#dungeon_key">Key</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="aboutModalLabel">About DunGen</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Mobile Dungeon Stocklist by Ed Allen</p>
+					<p>Related:<a href="dungen.html">DunGen</a>, <a href="dunmap.html">DunMap</a> and <a href="hire.html">Hiring Hall</a></p>
+					<p>Contact me: @edallen on Twitter, or comment on my blog <a href="http://geekruminations.blogspot.com">Ruminations of a
+					Geek</a></p>
+					<p>Choose the Level. Enter your map's URL and click Load Map or pick one from the menu. When you see the map, click in
+						rooms to place room numbers and drag to reposition. Contents for rooms will randomly generate as you place them. The
+						node editor will let you edit or reroll contents. </p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<select id="level">
 		<option value="0">Level 1</option>
 		<option value="1">Level 2</option>

@@ -48,11 +48,6 @@ p {
 */
 
 /* Making look nice */
-body {
-	padding: 1em;
-	font-family: Arial;
-	font-size: 14px;
-}
 
 input[type="text"] {
 	padding: 0.4em;

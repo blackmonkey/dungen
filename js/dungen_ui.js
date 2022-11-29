@@ -45,20 +45,6 @@ styleButton.addEventListener("click", function () {
 	DG.styleBox();
 });
 
-var keyButton = document.getElementById("scroll-to-key");
-keyButton.addEventListener("click", function () {
-	DG.scrollToKey();
-	$(this).hide();
-	$("#scroll-to-top").show();
-});
-
-var topButton = document.getElementById("scroll-to-top");
-topButton.addEventListener("click", function () {
-	DG.scrollToTop();
-	$(this).hide();
-	$("#scroll-to-key").show();
-});
-
 var replaceButton = document.getElementById("replace");
 replaceButton.addEventListener("click", function () {
 	var textFrom = $('#text_from').val();
