@@ -301,48 +301,7 @@ DG.drawOptions = {
 			DG.nodeDialog(newData, callback);
 		},
 		editEdge: function (data, callback) {
-			/** data = {id: edgeID,
-						*           from: nodeId1,
-						*           to: nodeId2,
-						*          };
-			 */
-
-			var newData = data; // alter the data as you want, except for the ID.
-			// all fields normally accepted by an edge can be used.a
-
-			var currentEdgeColor;
-
-			if (typeof (newData.color === 'undefined')) {
-				newData.color = DG.data.style.edges.color;
-			}
-			currentEdgeColor = newData.color.color;
-
-			var edgeColorOptions = DG.view.buildOptions(DG.view.solidColorList, currentEdgeColor);
-
-			bootbox.dialog({
-				title: "Edit Path between Locations",
-				message: DG.view.rowDiv(
-					DG.view.colDiv(
-						DG.view.blankForm(
-							DG.view.formGroupDiv(
-								DG.view.label4('name', 'Name') +
-								DG.view.inputTag("edge_name", "Path name", DG.edgesDataSet.get(newData.id).label)
-							) +
-							DG.view.controlDiv('Color ', DG.view.selectControl("edgeColor", edgeColorOptions), "6")
-						), 12)),
-				buttons: {
-					save: {
-						label: "Save",
-						className: "btn-success",
-						callback: function () {
-							newData.label = $('#edge_name').val();
-							newData.color.color = $("select#edgeColor option:selected").text();
-							DG.edgesDataSet.update(newData);
-							callback(newData);
-						}
-					}
-				}
-			})
+			DG.edgeDialog(data, callback);
 		},
 		addEdge: function (data, callback) {
 			// data = {from: nodeId1, to: nodeId2};

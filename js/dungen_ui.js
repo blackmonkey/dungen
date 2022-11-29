@@ -35,16 +35,6 @@ importButton.addEventListener("click", function () {
 	DG.ui.importDungeon();
 });
 
-var themeButton = document.getElementById("theme");
-themeButton.addEventListener("click", function () {
-	DG.themeBox();
-});
-
-var styleButton = document.getElementById("style");
-styleButton.addEventListener("click", function () {
-	DG.styleBox();
-});
-
 var replaceButton = document.getElementById("replace");
 replaceButton.addEventListener("click", function () {
 	var textFrom = $('#text_from').val();
@@ -77,12 +67,6 @@ $('#monster_relations').change(function () {
 //   $(this).val('');
 //   DG.data.notes = $(this).val();
 // });
-
-$("body").on("click", "#reroll_node_title", function () {
-	var contents = DG.brToLf(DG.makeContents(DG.data.dungeonLevel));
-	console.log(contents);
-	$('textarea#location_description').html(contents);
-});
 
 function populateUI() {
 	DG.ui.populateSavedSelect();
@@ -213,3 +197,7 @@ DG.ui = {
 		DG.ui.loadNotesFields();
 	} //import a file previously exported
 }
+
+$(document).ready(function() {
+	DG.view.init();
+});

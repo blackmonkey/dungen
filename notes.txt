@@ -43,5 +43,3 @@ Refactor other dialogs to extract HTML to functions.
 Map library and dungen derived stocker.
 
 Replace vis.js with Pixi.js.
-
-Fix `bootbox` which is an old bootstrap component.

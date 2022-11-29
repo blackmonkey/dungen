@@ -18,6 +18,8 @@
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
 					<li class="nav-item"><a class="nav-link" href="#dungeon_key">Key</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#selectThemeModal">Theme</a></li>
+					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
 					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
 				</ul>
 			</div>
@@ -46,6 +48,194 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="editEdgeModal" tabindex="-1" aria-labelledby="editEdgeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editEdgeModalLabel">Edit Path between Locations</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="edgeName">Path name</span>
+						<input type="text" class="form-control" id="edgeName">
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="edgeColor">Color</label>
+						<select class="form-select" id="edgeColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="fromNode">From</label>
+						<select class="form-select" id="fromNode"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="toNode">To</label>
+						<select class="form-select" id="toNode"></select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-bs-dismiss="modal" id="edge-btn-save">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="selectThemeModal" tabindex="-1" aria-labelledby="selectThemeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="selectThemeModalLabel">Select Theme</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">Choose tags to build a theme</div>
+					<fieldset class="card m-2 p-2">
+						<legend>Favored Monsters</legend>
+						<div class="d-flex flex-wrap gap-1" id="monsterTags"></div>
+					</fieldset>
+					<fieldset class="card m-2 p-2">
+						<legend>Nodes (not for Wilds yet)</legend>
+						<div class="d-flex flex-wrap gap-1" id="nodeTags"></div>
+					</fieldset>
+					<fieldset class="card m-2 p-2">
+						<legend>Edges (not for Wilds yet)</legend>
+						<div class="d-flex flex-wrap gap-1" id="edgeTags"></div>
+					</fieldset>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="theme-btn-use">Use selected</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="theme-btn-any">Any</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="styleModal" tabindex="-1" aria-labelledby="styleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="styleModalLabel">Map style</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">Choose style options</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="style-fontFace">Font</span>
+						<input type="text" class="form-control" id="style-fontFace">
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-nodeTextSize">Font Size</label>
+						<select class="form-select" id="style-nodeTextSize"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-fontColor">Font Color</label>
+						<select class="form-select" id="style-fontColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-bgColor">Background Color</label>
+						<select class="form-select" id="style-bgColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-borderColor">Border Color</label>
+						<select class="form-select" id="style-borderColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-shape">Node Shape</label>
+						<select class="form-select" id="style-shape"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-nodeSize">Node Size (if label outside)</label>
+						<select class="form-select" id="style-nodeSize"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-boxBorderRadius">Border radius (if box shape)</label>
+						<select class="form-select" id="style-boxBorderRadius"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-borderWidth">Border Width</label>
+						<select class="form-select" id="style-borderWidth"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-edgeWidth">Edge Width</label>
+						<select class="form-select" id="style-edgeWidth"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="style-edgeColor">Edge Color</label>
+						<select class="form-select" id="style-edgeColor"></select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="style-btn-use">Use at next generation</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="style-btn-apply">Apply to current dungeon</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="style-btn-reset">Use default</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="nodeModal" tabindex="-1" aria-labelledby="nodeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="nodeModalLabel">Edit Location</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="nodeName">Name</span>
+						<input type="text" class="form-control" id="nodeName">
+					</div>
+					<div class="input-group mb-3">
+						<div>
+							<span class="input-group-text" for="nodeDescription">Description</span>
+							<button id="node-btn-reroll">Reroll</button>
+						</div>
+						<textarea class="form-control" id="nodeDescription"></textarea>
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="node-fontFace">Font</span>
+						<input type="text" class="form-control" id="node-fontFace">
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-nodeTextSize">Font Size</label>
+						<select class="form-select" id="node-nodeTextSize"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-fontColor">Font Color</label>
+						<select class="form-select" id="node-fontColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-bgColor">Background Color</label>
+						<select class="form-select" id="node-bgColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-borderColor">Border Color</label>
+						<select class="form-select" id="node-borderColor"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-shape">Node Shape</label>
+						<select class="form-select" id="node-shape"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-nodeSize">Node Size (if label outside)</label>
+						<select class="form-select" id="node-nodeSize"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-boxBorderRadius">Border radius (if box shape)</label>
+						<select class="form-select" id="node-boxBorderRadius"></select>
+					</div>
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="node-borderWidth">Border Width</label>
+						<select class="form-select" id="node-borderWidth"></select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="node-btn-save">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<select id="level">
 		<option value="0">Level 1</option>
 		<option value="1">Level 2</option>
@@ -55,8 +245,6 @@
 		<option value="5">Level 6</option>
 		<option value="wilds">Wilds</option>
 	</select>
-	<button class="btn-small" id="theme">Theme</button>
-	<button class="btn-small" id="style">Style</button>
 	<label for="treasureMultiplier" style="padding-right: 5px">Treasure X </label>
 	<input id="treasureMultiplier" value='1.0' size='3' />
 	<label for="map_url" style="padding-right: 5px">Image URL</label>

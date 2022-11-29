@@ -36,16 +36,6 @@ importButton.addEventListener("click", function () {
 	DG.ui.importDungeon();
 });
 
-var themeButton = document.getElementById("theme");
-themeButton.addEventListener("click", function () {
-	DG.themeBox();
-});
-
-var styleButton = document.getElementById("style");
-styleButton.addEventListener("click", function () {
-	DG.styleBox();
-});
-
 var lockButton = $("button#lock");
 lockButton.on("click", function () {
 	if (lockButton.data("status") === "locked") {
@@ -94,11 +84,6 @@ replaceButton.addEventListener("click", function () {
 	return false;
 });
 
-
-$("body").on("click", "#reroll_node_title", function () {
-	var contents = DG.brToLf(DG.makeContents(DG.data.dungeonLevel));
-	$('textarea#location_description').html(contents);
-});
 
 $("select#map_url_select").on('change', function (e) {
 	var optionVal = $("select#map_url_select option:selected").val();
@@ -315,3 +300,7 @@ DG.ui = {
 		DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
 	} //import a file previously exported
 }
+
+$(document).ready(function() {
+	DG.view.init();
+});
