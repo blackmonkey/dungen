@@ -2,6 +2,7 @@
 DG.isMap = false;
 
 DG.data = {
+	mapName: '',
 	historicalNames: false,
 	settlements: [],
 	organizations: [],

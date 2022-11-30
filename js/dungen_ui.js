@@ -1,20 +1,5 @@
 // UI elements
 
-var saveButton = document.getElementById("save");
-saveButton.addEventListener("click", function () {
-	DG.ui.saveDungeon();
-});
-
-var loadButton = document.getElementById("load");
-loadButton.addEventListener("click", function () {
-	DG.ui.loadDungeon();
-});
-
-var deleteButton = document.getElementById("delete");
-deleteButton.addEventListener("click", function () {
-	DG.ui.deleteDungeon();
-});
-
 var exportButton = document.getElementById("export");
 exportButton.addEventListener("click", function () {
 	DG.ui.exportDungeon();
@@ -59,7 +44,6 @@ $('#monster_relations').change(function () {
 // });
 
 function populateUI() {
-	DG.ui.populateSavedSelect();
 }
 
 DG.ui = {
@@ -106,74 +90,7 @@ DG.ui = {
 		}
 		jq_note.val(noteText);
 	},
-	populateSavedSelect: function () {
-		// populate the saved dungeons select
-		var dungeonSelect = document.getElementById("saved");
-		dungeonSelect.innerHTML = "";
-		var keys = [];
-		var key = "";
-		for (i = 0; i < localStorage.length; i++) {
-			key = localStorage.key(i);
-			if (key.substring(0, 3) != "DM:") {
-				keys.push(key);
-			}
-		}
 
-		if (keys.length > 0) {
-			DG.ui.addOptionsToSelect(dungeonSelect, keys);
-		}
-	},
-	addOptionsToSelect: function (select, optionsList) {
-		for (var i = 0; i < optionsList.length; i++) {
-			var opt = document.createElement('option');
-			opt.value = optionsList[i];
-			opt.innerHTML = optionsList[i];
-			select.appendChild(opt);
-		}
-	},
-	saveDungeon: function () {
-		var key = document.getElementById("dungeon_name").value;
-		var dungeonString = JSON.stringify(DG.data);
-		localStorage[key] = dungeonString;
-		var dungeonSelect = document.getElementById("saved");
-		DG.ui.populateSavedSelect();
-	},
-	loadDungeon: function () {
-		var dungeonSelect = document.getElementById("saved");
-		var selectedKey = "";
-		var dungeonData = "unloaded";
-		if (dungeonSelect.selectedIndex == -1) {
-			alert("No dungeon selected to load");
-			return null;
-		}
-		selectedKey = dungeonSelect.options[dungeonSelect.selectedIndex].text;
-		dungeonData = localStorage[selectedKey];
-		if (dungeonData !== "unloaded") {
-			var savedData = JSON.parse(dungeonData);
-			DG.data = $.extend(DG.data, savedData);
-			DG.updateSettlementsData(DG.data.settlements);
-			DG.initNetwork();
-			document.getElementById("dungeon_name").text = selectedKey;
-			document.getElementById("dungeon_name").value = selectedKey;
-			DG.ui.loadNotesFields();
-
-
-			// update styles loaded from saved dungeons, without losing styles that are actually set
-			DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
-			DG.data.style = $.extend(DG.data.style, savedData.style);
-			// might have to go deeper...
-		}
-	},
-
-	deleteDungeon: function () {
-		var dungeonSelect = document.getElementById("saved");
-		var selectedKey = dungeonSelect.options[dungeonSelect.selectedIndex].text;
-		var message = "Permanently delete dungeon " + selectedKey + " from storage?";
-		if (confirm(message)) {
-			localStorage.removeItem(selectedKey);
-			DG.ui.populateSavedSelect();
-		}
-	},
 	exportDungeon: function () {
 		var dungeonString = JSON.stringify(DG.data);
 		$("#export-import").val(dungeonString);

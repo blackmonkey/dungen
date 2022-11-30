@@ -44,6 +44,9 @@ DG.view = {
 		DG.view.initSelectThemeDialog();
 		DG.view.initStyleDialog();
 		DG.view.initNodeDialog();
+		DG.view.initSaveMapDialog();
+		DG.view.initLoadMapDialog();
+		DG.view.initDeleteMapDialog();
 	},
 
 	initEditEdgeDialog: function () {
@@ -167,6 +170,75 @@ DG.view = {
 		DG.view.selectControl(dialog.find('#node-nodeSize'), DG.view.sizeList, DG.data.style.size);
 		DG.view.selectControl(dialog.find('#node-boxBorderRadius'), DG.view.radiusList, DG.data.style.borderRadius);
 		DG.view.selectControl(dialog.find('#node-borderWidth'), DG.view.widthList, DG.data.style.borderWidth);
+	},
+
+	initSaveMapDialog: function() {
+		let dialog = $('#saveMapModal');
+		dialog.find('#save-map-btn-ok').click(() => {
+			let key = dialog.find('#dungeonName').val();
+			let json = JSON.stringify(DG.data);
+			localStorage[key] = json;
+			DG.data.mapName = key;
+			$('#menu-delete-map').removeClass('disabled');
+		});
+	},
+
+	initLoadMapDialog: function() {
+		let dialog = $('#loadMapModal');
+		let selectCtrl = dialog.find('#savedDungeons');
+		let loadBtn = dialog.find('#load-map-btn-ok');
+		dialog.on('show.bs.modal', evt => {
+			let keys = [];
+			for (i = 0; i < localStorage.length; i++) {
+				key = localStorage.key(i);
+				keys.push(key);
+			}
+			if (keys.length === 0) {
+				selectCtrl.empty();
+				loadBtn.addClass('disabled');
+				return;
+			}
+			let curName = DG.data.mapName.length > 0 ? DG.data.mapName : keys[0];
+			DG.view.selectControl(selectCtrl, keys, curName);
+			loadBtn.removeClass('disabled');
+		});
+		loadBtn.click(() => {
+			let selectedKey = selectCtrl.val();
+			let json = localStorage[selectedKey];
+			if (json === 'unloaded') {
+				alert('Failed to load dungeon "' + selectedKey + '"!');
+				return;
+			}
+
+			$('#saveMapModal #dungeonName').val(selectedKey);
+			$('#menu-delete-map').removeClass('disabled');
+
+			let savedData = JSON.parse(json);
+			DG.data = $.extend(DG.data, savedData);
+			DG.updateSettlementsData(DG.data.settlements);
+			// $("#map_url").val(DG.data.imageSource); // for dunmap.html
+			// DG.loadMapImage(); // for dunmap.html
+			DG.initNetwork();
+			DG.ui.loadNotesFields();
+			// update styles loaded from saved dungeons, without losing styles that are actually set
+			DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
+			DG.data.style = $.extend(DG.data.style, savedData.style);
+			DG.data.mapName = selectedKey;
+			// might have to go deeper...
+		});
+	},
+
+	initDeleteMapDialog: function() {
+		let dialog = $('#deleteMapModal');
+		dialog.on('show.bs.modal', evt => {
+			dialog.find('#map-key').text(DG.data.mapName);
+		});
+		dialog.find('#delete-map-btn-ok').click(() => {
+			localStorage.removeItem(DG.data.mapName);
+			DG.data.mapName = '';
+			$('#saveMapModal #dungeonName').val('');
+			$('#menu-delete-map').addClass('disabled');
+		});
 	},
 };
 

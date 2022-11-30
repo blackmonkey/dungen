@@ -24,6 +24,10 @@
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');">Generate</a></li>
 							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('wilds');">Wilds</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#saveMapModal">Save to storage ...</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapModal">Load from storage ...</a></li>
+							<li><a class="dropdown-item disabled" href="#" id="menu-delete-map" data-bs-toggle="modal" data-bs-target="#deleteMapModal">Delete from storage</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
@@ -82,7 +86,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="input-group mb-3">
-						<span class="input-group-text" for="treasureMultiplier">Treasure X</span>
+						<span class="input-group-text" for="treasureMultiplier">Treasure x</span>
 						<input type="number" class="form-control" id="treasureMultiplier" value="1.0" min="0" step="0.1">
 					</div>
 				</div>
@@ -138,7 +142,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-success" data-bs-dismiss="modal" id="edge-btn-save">Save</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="edge-btn-save">Save</button>
 				</div>
 			</div>
 		</div>
@@ -300,17 +304,66 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="saveMapModal" tabindex="-1" aria-labelledby="saveMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="saveMapModalLabel">Save dungeon to storage</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="dungeonName">Dungeon Name</span>
+						<input type="text" class="form-control" id="dungeonName">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save-map-btn-ok">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="loadMapModal" tabindex="-1" aria-labelledby="loadMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="loadMapModalLabel">Load dungeon from storage</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="savedDungeons">Saved Dungeons</span>
+						<select class="form-select" id="savedDungeons"></select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="load-map-btn-ok">Load</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteMapModal" tabindex="-1" aria-labelledby="deleteMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteMapModalLabel">Delete dungeon from storage</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Permanently delete dungeon <span class="text-danger" id="map-key"></span> from storage?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="delete-map-btn-ok">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="container my-3">
 	</div>
 
-	<label for="dungeon_name">Name for save </label>
-	<input id="dungeon_name" placeholder="Name the dungeon" />
-	<button class="btn-small" id="save">Save</button>
-	<select id="saved">
-		<option>Saved Dungeons</option>
-	</select>
-	<button id="load">Load</button>
-	<button id="delete">Delete from storage</button>
 	<button id="chrome-dl" type="button" onclick="DG.chromeSaveImage()" style="display:none">Download Image</button>
 	<button id="move_table" style="display:none">Move Table for Printing</button>
 	<div id="dungeon" class="graph"></div>

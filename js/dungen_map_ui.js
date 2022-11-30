@@ -11,21 +11,6 @@ regenerateButton.addEventListener("click", function () {
 //  DG.map.initMap("wilds");
 //});
 
-var saveButton = document.getElementById("save");
-saveButton.addEventListener("click", function () {
-	DG.ui.saveDungeon();
-});
-
-var loadButton = document.getElementById("load");
-loadButton.addEventListener("click", function () {
-	DG.ui.loadDungeon();
-});
-
-var deleteButton = document.getElementById("delete");
-deleteButton.addEventListener("click", function () {
-	DG.ui.deleteDungeon();
-});
-
 var exportButton = document.getElementById("export");
 exportButton.addEventListener("click", function () {
 	DG.ui.exportDungeon();
@@ -94,7 +79,6 @@ $("select#map_url_select").on('change', function (e) {
 });
 
 function populateUI() {
-	DG.ui.populateSavedSelect();
 	DG.ui.populateMapUrlsSelect();
 	var randomMap = DG.drawOne(DG.ui.mapImages().slice(1));
 	$("#map_url").val(randomMap[1]);
@@ -161,30 +145,6 @@ DG.ui = {
 		var select = document.getElementById("map_url_select");
 		this.addOptionPairsToSelect(select, optionsList);
 	},
-	populateSavedSelect: function () {
-		// populate the saved dungeons select
-		var dungeonSelect = document.getElementById("saved");
-		dungeonSelect.innerHTML = "";
-		var keys = [];
-		var key = "";
-		for (i = 0; i < localStorage.length; i++) {
-			key = localStorage.key(i);
-			if (key.substring(0, 3) === "DM:") {
-				keys.push(key.substring(3));
-			}
-		}
-		if (keys.length > 0) {
-			DG.ui.addOptionsToSelect(dungeonSelect, keys);
-		}
-	},
-	addOptionsToSelect: function (select, optionsList) {
-		for (var i = 0; i < optionsList.length; i++) {
-			var opt = document.createElement('option');
-			opt.value = optionsList[i];
-			opt.innerHTML = optionsList[i];
-			select.appendChild(opt);
-		}
-	},
 	addOptionPairsToSelect: function (select, optionsList) {
 		for (var i = 0; i < optionsList.length; i++) {
 			var opt = document.createElement('option');
@@ -194,42 +154,6 @@ DG.ui = {
 		}
 	},
 
-	saveDungeon: function () {
-		var key = "DM:" + document.getElementById("dungeon_name").value;
-		var dungeonString = JSON.stringify(DG.data);
-		localStorage[key] = dungeonString;
-		var dungeonSelect = document.getElementById("saved");
-		DG.ui.populateSavedSelect();
-	},
-
-	loadDungeon: function () {
-		var dungeonSelect = document.getElementById("saved");
-		var selectedKey = "";
-		var namespacedKey = "";
-		var dungeonData = "unloaded";
-		if (dungeonSelect.selectedIndex == -1) {
-			alert("No dungeon selected to load");
-			return null;
-		}
-		selectedKey = dungeonSelect.options[dungeonSelect.selectedIndex].text;
-		namespacedKey = "DM:" + selectedKey;
-		dungeonData = localStorage[namespacedKey];
-		if (dungeonData !== "unloaded") {
-			var savedData = JSON.parse(dungeonData);
-			DG.data = $.extend(DG.data, savedData);
-			DG.updateSettlementsData(DG.data.settlements); // allows for loading old saves or new
-			$("#map_url").val(DG.data.imageSource);
-			DG.loadMapImage();
-			DG.initNetwork();
-			document.getElementById("dungeon_name").text = selectedKey;
-			document.getElementById("dungeon_name").value = selectedKey;
-			DG.ui.loadNotesFields();
-			// update styles loaded from saved dungeons, without losing styles that are actually set
-			DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
-			DG.data.style = $.extend(DG.data.style, savedData.style);
-			// might have to go deeper...
-		}
-	},
 	populateMonsterRelations: function () {
 		$("#monster_relations").val(DG.monsterRelationsNote());
 		DG.data.monster_relations = $("#monster_relations").val().split("\n");
@@ -271,16 +195,6 @@ DG.ui = {
 			noteText += dataLine + '\n';
 		}
 		jq_note.val(noteText);
-	},
-	deleteDungeon: function () {
-		var dungeonSelect = document.getElementById("saved");
-		var selectedKey = dungeonSelect.options[dungeonSelect.selectedIndex].text;
-		var namespacedKey = "DM:" + selectedKey;
-		var message = "Permanently delete dungeon " + selectedKey + " from storage?";
-		if (confirm(message)) {
-			localStorage.removeItem(namespacedKey);
-			DG.ui.populateSavedSelect();
-		}
 	},
 	exportDungeon: function () {
 		var dungeonString = JSON.stringify(DG.data);
