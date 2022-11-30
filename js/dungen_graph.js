@@ -1,6 +1,3 @@
-
-DG.isMap = false;
-
 DG.data = {
 	mapName: '',
 	historicalNames: false,
@@ -94,6 +91,7 @@ DG.digDungeon = function (locationType) {
 	DG.data.edges = [];
 	DG.data.organizations = [];
 	DG.data.settlements = [];
+	DG.data.monster_relations = [];
 	DG.data.monsters = {};
 	DG.monsterHold = undefined;
 	DG.data.locationType = locationType;
@@ -131,10 +129,43 @@ DG.digDungeon = function (locationType) {
 			break;
 		default:
 	}
+	DG.loadMapImage();
 	DG.initNetwork();
 	DG.data.notes = DG.populateNotes();
 	DG.ui.populateNotesFields();
 };
+
+DG.loadMapImage = function () {
+	function drawImageScaled(img, ctx) {
+		// GameAlchemist on Stack Overflow, http://stackoverflow.com/questions/23104582/scaling-an-image-to-fit-on-canvas
+		var canvas = ctx.canvas;
+		var hRatio = canvas.width / img.width;
+		var vRatio = canvas.height / img.height;
+		var ratio = Math.min(hRatio, vRatio, 1);
+		var centerShift_x = (canvas.width - img.width * ratio) / 2;
+		var centerShift_y = (canvas.height - img.height * ratio) / 2;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(img, 0, 0, img.width, img.height,
+			centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+		//var hRatio = canvas.width / img.width    ;
+		//var vRatio = canvas.height / img.height  ;
+		//var ratio  = Math.min ( hRatio, vRatio );
+		//ctx.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
+	}
+	var imgSource = $("#map_url").val();
+	DG.data.imageSource = imgSource;
+	var image = new Image();
+	image.src = imgSource;
+	var canvas = document.getElementById('dungeon_map');
+	var nodesCanvasDiv = $('div#dungeon');
+	canvas.width = nodesCanvasDiv.width();
+	canvas.height = nodesCanvasDiv.height();
+	var context = canvas.getContext('2d');
+	image.onload = function () {
+		drawImageScaled(image, context);
+	}
+};
+
 // Nodes and Linkage ------------------------------------------------------------------------
 
 DG.makeRooms = function () {
@@ -177,7 +208,7 @@ DG.linkNodes = function (startEdge, endEdge) {
 	}
 };
 
-DG.makeNode = function (id, label) {
+DG.makeNode = function (id, label, x, y) {
 	var border = DG.data.style.border,
 		borderWidth = DG.data.style.borderWidth,
 		borderRadius = DG.data.style.borderRadius,
@@ -190,12 +221,21 @@ DG.makeNode = function (id, label) {
 		fontColor = DG.data.style.fontColor,
 		highlightBgColor = DG.data.style.highlightBgColor,
 		highLightBorder = DG.data.style.highlightBorder;
-
+	if (x === undefined) {
+		x = id * 5;
+	}
+	if (y === undefined) {
+		y = id * 5;
+	}
 	var contents = DG.makeContents(DG.data.dungeonLevel);
 
 	DG.addMonstersToList();
+	DG.addMonsterRelationship();
 	return {
 		id: id,
+		x: x,
+		y: y,
+		physics: true,
 		shape: shape,
 		size: size,
 		font: { size: fontSize, face: fontFace, color: fontColor },
@@ -230,6 +270,11 @@ DG.drawOptions = {
 		forceAtlas2Based: {}
 	},
 	configure: { enabled: false },
+	interaction: {
+		dragView: true,
+		zoomView: true,
+		dragNodes: true
+	},
 	manipulation: {
 		enabled: true,
 		initiallyActive: false,
@@ -242,9 +287,12 @@ DG.drawOptions = {
 						*           allowedToMoveY: true
 						*          };
 			 */
-			var i = DG.data.nodes[DG.data.nodes.length - 1].id + 1;
+			var i = 0;
+			if (DG.data.nodes.length > 0) {
+				i = DG.data.nodes[DG.data.nodes.length - 1].id + 1;
+			}
 
-			var newData = DG.makeNode(i, DG.nameNode(i + 1));
+			var newData = DG.makeNode(i, DG.nameNode(i + 1), data.x, data.y);
 			// alter the data as you want.
 			// all fields normally accepted by a node can be used.
 			DG.nodesDataSet.add(newData);
@@ -326,37 +374,59 @@ DG.initNetwork = function () {
 	DG.network = new vis.Network(DG.container, data, DG.drawOptions);
 
 	DG.fillKey();
+
+	DG.network.on("click", function (event) {
+		if (DG.ui.locked()) {
+			return false;
+		}
+		if (event.edges.length == 0 && event.nodes.length == 0) {
+			DG.drawOptions.manipulation.addNode(event.pointer.canvas, function () {/*EMPTY CALLBACK FOR NOW*/ });
+		}
+	});
+
+	DG.network.on("dragEnd", function (event) {
+		if (event.nodes.length == 1) {
+			var eventNodeId = event.nodes[0]; // may be array position not ID
+			var node = DG.network.body.nodes[eventNodeId];
+			var dataNode = DG.data.nodes[eventNodeId];
+
+			dataNode.x = node.x;
+			dataNode.y = node.y;
+		}
+	});
+
+	DG.network.on("initRedraw", function (event) {
+		DG.network.moveTo({ position: { x: 0, y: 0 }, scale: 1.0 });
+	});
 };
 
 DG.nameNode = function (nodeNum) {
-	return "" + (nodeNum) + ": " + DG.randomNodeLabel()
+	return "" + (nodeNum) + ": " + DG.randomNodeLabel();
 };
 
 DG.randomNodeLabel = function () {
 	var nodeLabel;
 	if (DG.data.locationType == "wilds") {
 		return this.drawOne(this.wild.nodeLabels);
-	} else {
-		if (DG.data.nodeTable === undefined) {
-			return DG.drawOne(DG.stock.nodeLabels).label;
-		}
-		if (DG.data.nodeTable.length > 0) {
-			return DG.drawOne(DG.data.nodeTable).label;
-		}
+	}
+	if (DG.data.nodeTable === undefined) {
 		return DG.drawOne(DG.stock.nodeLabels).label;
 	}
+	if (DG.data.nodeTable.length > 0) {
+		return DG.drawOne(DG.data.nodeTable).label;
+	}
+	return DG.drawOne(DG.stock.nodeLabels).label;
 };
 
 DG.randomEdgeLabel = function () {
 	if (DG.data.locationType == "wilds") {
 		return this.drawOne(this.wild.edgeLabels);
-	} else {
-		if (DG.data.edgeTable === undefined) {
-			return DG.drawOne(DG.stock.edgeLabels).label;
-		}
-		if (DG.data.edgeTable.length > 0) {
-			return DG.drawOne(DG.data.edgeTable).label;
-		}
+	}
+	if (DG.data.edgeTable === undefined) {
 		return DG.drawOne(DG.stock.edgeLabels).label;
 	}
+	if (DG.data.edgeTable.length > 0) {
+		return DG.drawOne(DG.data.edgeTable).label;
+	}
+	return DG.drawOne(DG.stock.edgeLabels).label;
 };

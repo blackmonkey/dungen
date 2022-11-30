@@ -108,6 +108,9 @@
 					<p>Pointcrawl Dungeon Generator by Ed Allen, v. 2.3</p>
 					<p>Related generators:<a href="dunmap.html">DunMap</a> and <a href="hire.html">Hiring Hall</a></p>
 					<p>Contact me: @edallen on Twitter, or comment on my blog <a href="http://geekruminations.blogspot.com">Ruminations of a Geek</a></p>
+					<p>Choose the Level. Enter your map's URL and click Load Map or pick one from the menu. When you see the map, click in
+						rooms to place room numbers and drag to reposition. Contents for rooms will randomly generate as you place them. The
+						node editor will let you edit or reroll contents. </p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -364,9 +367,18 @@
 	<div class="container my-3">
 	</div>
 
+	<label for="map_url" style="padding-right: 5px">Image URL</label>
+	<select id="map_url_select"></select>
+	<input id="map_url" size="30" placeholder="URL of source map"
+		value="http://2.bp.blogspot.com/-JpzHDN3kKF0/VA5sgJIqJnI/AAAAAAAABnY/U-Xx1BtK35A/s1600/stone_walls_curve.png" />
+	<button id="lock" data-status="unlocked">Clicks add</button>
+
 	<button id="chrome-dl" type="button" onclick="DG.chromeSaveImage()" style="display:none">Download Image</button>
 	<button id="move_table" style="display:none">Move Table for Printing</button>
-	<div id="dungeon" class="graph"></div>
+	<div id="positioner" style="position: relative;">
+		<canvas id="dungeon_map">canvas test</canvas>
+		<div id="dungeon" class="map_nodes"></div>
+	</div>
 	<span class="clear-both"></span>
 	<div id="table-holder">
 		<table class="dungen table table-bordered" id="dungeon_key"></table>
@@ -383,7 +395,7 @@
 		<br><label for="settlements">Settlements Nearby</label><br>
 		<textarea id="settlements" cols='120' rows='6'></textarea>
 	</div>
-	<h3>Re-skin</h3>
+	<h3>Re-skin creatures and treasures</h3>
 	<p>Re-skin creatures or replace other repeating text in room descriptions and notes - there is no Undo so be
 		careful.</p>
 	Replace <input id="text_from" /> with <input id="text_to" /> in Notes and all Location Descriptions.
@@ -395,16 +407,26 @@
 		move to another computer. Paste into the field there and click Import to load it. Careful editing in this field
 		is possible. Save with a name on the destination computer.</p>
 	<textarea id="export-import" cols='120' rows='10'></textarea>
-	<br>
 	<p>To manually save and use the dungeon outside this page, copy the text of the room contents table and notes field
 		and paste into another file, and use the Download Image button on Chrome or the right click menu to save the image
 		as a PNG.</p>
-	<p>If you need to clear all cached data in your browser for some reason, please export if you'll want to use a dungeon
-		in DunGen again or manually save of any dungeons you care about first. DunGen saves to your browser's "LocalStorage"
-		not to a server. <b>Clearing all LocalStorage will wipe out any saved and edited dungeons.</b></p>
+	<p>DunGen saves to your browser's "LocalStorage" not to a server. If you need to clear all cached data in your
+		browser, please export a backup file first, and import it when you need it again.
+		<b>Clearing all LocalStorage will wipe out any saved and edited dungeons.</b>
+	</p>
 	<p>Comments welcome at the Ruminations blog linked above or on Twitter. If you like hacking, take a look at the
 		dungen_stock.js file first. It's pretty easy to customize content there. DunGen is now up on
 		<a href='https://github.com/edallen/dungen'>Github</a>.</p>
+	<br>
+	<h3>New features and plans</h3>
+	<p>Split out the notes field to separate fields, as a step towards better UI layout and data update.</p>
+	<p>I will be rescanning some of the maps I linked in the menu to make them a better fit here.</p>
+
+	<h3>Image Link Credits</h3>
+	<p>EA: <a href="http://geekruminations.blogspot.com" target="_blank">Ed Allen</a><br>
+		BL: <a href="https://www.flickr.com/photos/britishlibrary/" target="_blank">British Library Flickr</a> of free
+		images from old books
+	</p>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

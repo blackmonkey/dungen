@@ -141,7 +141,7 @@ DG.view = {
 			DG.initNetwork();
 		});
 		dialog.find('#style-btn-reset').click(() => {
-			Object.assign(DG.data.style, DG.defaultStyle);
+			$.extend(DG.data.style, DG.defaultStyle);
 			dialog.find('#style-fontFace').val(DG.data.style.fontFace);
 			dialog.find('#style-nodeTextSize').val(DG.data.style.fontSize).change();
 			dialog.find('#style-fontColor').val(DG.data.style.fontColor).change();
@@ -216,8 +216,8 @@ DG.view = {
 			let savedData = JSON.parse(json);
 			DG.data = $.extend(DG.data, savedData);
 			DG.updateSettlementsData(DG.data.settlements);
-			// $("#map_url").val(DG.data.imageSource); // for dunmap.html
-			// DG.loadMapImage(); // for dunmap.html
+			$("#map_url").val(DG.data.imageSource);
+			DG.loadMapImage();
 			DG.initNetwork();
 			DG.ui.loadNotesFields();
 			// update styles loaded from saved dungeons, without losing styles that are actually set

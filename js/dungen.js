@@ -954,17 +954,12 @@ var DG = {
 	},
 	wanderingMonstersNote: function () {
 		var monsterList = "";
-		var monsterCount = 0;
-		if (DG.isMap) {
-			monsterCount = 4 + DG.rollDie(1, 8);
-		} else {
-			monsterCount = Math.round(DG.data.nodes.length / 6) + 1;
-			if (DG.rollThree()) {
-				monsterCount++
-			}
-			if (DG.rollThree()) {
-				monsterCount++
-			}
+		var monsterCount = Math.round(DG.data.nodes.length / 6) + 1;
+		if (DG.rollThree()) {
+			monsterCount++
+		}
+		if (DG.rollThree()) {
+			monsterCount++
 		}
 		for (var i = 1; i <= monsterCount; i++) {
 			monsterList += ("" + i + ": " + DG.randomMonsters(DG.data.dungeonLevel, false) + "\n");
