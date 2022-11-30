@@ -17,14 +17,81 @@
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#dungeon_key">Key</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#selectThemeModal">Theme</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
+					<li class="nav-item active dropdown">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Map</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#dungeon_key">Key</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');">Generate</a></li>
+							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('wilds');">Wilds</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Look &amp; Feel</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item has-submenu" href="#">Level</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-1" type="radio" value="0" checked/><label for="lnf-level-1">Level 1</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-2" type="radio" value="1"/><label for="lnf-level-2">Level 2</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-3" type="radio" value="2"/><label for="lnf-level-3">Level 3</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-4" type="radio" value="3"/><label for="lnf-level-4">Level 4</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-5" type="radio" value="4"/><label for="lnf-level-5">Level 5</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-6" type="radio" value="5"/><label for="lnf-level-6">Level 6</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-wilds" type="radio" value="wilds"/><label for="lnf-level-wilds">Wilds</label></a></li>
+								</ul>
+							</li>
+							<li>
+								<a class="dropdown-item has-submenu" href="#">Size</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="#"><input name="lnf-size" id="lnf-size-1" type="radio" value="5,10"/><label for="lnf-size-1">Small (5 - 10)</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-size" id="lnf-size-2" type="radio" value="11,20" checked/><label for="lnf-size-2">Medium (11 - 20)</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-size" id="lnf-size-3" type="radio" value="21,40"/><label for="lnf-size-3">Large (21 - 40)</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-size" id="lnf-size-4" type="radio" value="41,60"/><label for="lnf-size-4">Huge (41 - 60)</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-size" id="lnf-size-5" type="radio" value="61,100"/><label for="lnf-size-5">Enormous (61 - 100)</label></a></li>
+								</ul>
+							</li>
+							<li>
+								<a class="dropdown-item has-submenu" href="#">Pattern</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-1" type="radio" value="branch_loops" checked/><label for="lnf-pattern-1">Branched with loops</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-2" type="radio" value="branch"/><label for="lnf-pattern-2">Branched</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-3" type="radio" value="grid"/><label for="lnf-pattern-3">Grid</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-4" type="radio" value="random"/><label for="lnf-pattern-4">Random</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-5" type="radio" value="triangles"/><label for="lnf-pattern-5">Triangles</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-pattern" id="lnf-pattern-6" type="radio" value="mixed"/><label for="lnf-pattern-6">Mixed</label></a></li>
+								</ul>
+							</li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#treasureMultiplierModal">Treasure Multiplier ...</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#selectThemeModal">Theme</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
+						</ul>
+					</li>
 					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
+	<div class="modal fade" id="treasureMultiplierModal" tabindex="-1" aria-labelledby="treasureMultiplierModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="treasureMultiplierModalLabel">Treasure Multiplier</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="treasureMultiplier">Treasure X</span>
+						<input type="number" class="form-control" id="treasureMultiplier" value="1.0" min="0" step="0.1">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -236,36 +303,6 @@
 	<div class="container my-3">
 	</div>
 
-
-	<button id="scroll-to-top" class="fixed-nav" style="display: none">Top</button>
-	<select id="level">
-		<option value="0">Level 1</option>
-		<option value="1">Level 2</option>
-		<option value="2">Level 3</option>
-		<option value="3">Level 4</option>
-		<option value="4">Level 5</option>
-		<option value="5">Level 6</option>
-		<option value="wilds">Wilds</option>
-	</select>
-	<select id="size">
-		<option value="5,10">small (5 - 10)</option>
-		<option value="11,20" selected="true">medium (11 - 20)</option>
-		<option value="21,40">large (21 - 40)</option>
-		<option value="41,60">huge (41 - 60)</option>
-		<option value="61,100">enormous (61 - 100)</option>
-	</select>
-	<select id="pattern">
-		<option value="branch_loops">Branched with loops</option>
-		<option value="branch">Branched</option>
-		<!-- <option value="mixed" >Mixed</option> -->
-		<option value="grid">Grid</option>
-		<option value="random">Random</option>
-		<option value="triangles">Triangles</option>
-	</select>
-	<label for="treasureMultiplier" style="padding-right: 5px">Treasure X </label>
-	<input id="treasureMultiplier" value='1.0' size='3' />
-	<button class="btn-small" id="regenerate">Generate</button>
-	<button class="btn-small" id="wilds">Wilds</button>
 	<label for="dungeon_name">Name for save </label>
 	<input id="dungeon_name" placeholder="Name the dungeon" />
 	<button class="btn-small" id="save">Save</button>

@@ -84,10 +84,7 @@ DG.findInArrayById = function (id, arrayToSearch) {
 };
 // Dig a dungeon ---------------------------------------------------------
 DG.digDungeon = function (locationType) {
-	var data = { nodes: null, edges: null };
-	var levelSelect = document.getElementById("level");
-
-	var dungeonLevelSelected = levelSelect.options[levelSelect.selectedIndex].value;
+	var dungeonLevelSelected = $('input[name="lnf-level"]:checked').val();
 	DG.nameTheDungeon();
 	DG.data.nodes = [];
 	DG.data.edges = [];
@@ -97,10 +94,10 @@ DG.digDungeon = function (locationType) {
 	DG.data.monsters = {};
 	DG.monsterHold = undefined;
 	DG.data.locationType = locationType;
-	DG.data.treasureMultiplier = parseFloat($("#treasureMultiplier").val()) || 1;
+	DG.data.treasureMultiplier = parseFloat($('#treasureMultiplier').val()) || 1;
 	DG.roomCount = 0;
 	DG.edgeCount = 0;
-	if (dungeonLevelSelected === "wilds") {
+	if (dungeonLevelSelected === 'wilds') {
 		DG.data.dungeonLevel = dungeonLevelSelected
 	} else {
 		DG.data.dungeonLevel = parseInt(dungeonLevelSelected);

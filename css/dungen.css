@@ -37,34 +37,102 @@ table#dungeon_key {
 	width: 90%;
 }
 
-/*
-h1 {
-	font: 700 36px/0.5 'Alegreya', Arial, serif;
-}
-
-p {
-	font: 400 16px/0.5 'Alegreya', Arial, serif;
-}
-*/
-
-/* Making look nice */
-
-input[type="text"] {
-	padding: 0.4em;
-	font-family: Arial;
-}
-
 /* Inline Edit */
 p.hover {
 	background: #fffbe1;
 }
 
-.fixed-nav {
-	position: fixed;
-	top: 1em;
-	left: 1em;
-}
-
 .clear-both {
 	clear: both;
+}
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+	.dropdown-menu li {
+		position: relative;
+	}
+	.dropdown-menu .submenu {
+		display: none;
+		position: absolute;
+		left:100%; top:-7px;
+	}
+	.dropdown-menu .submenu-left {
+		right:100%; left:auto;
+	}
+	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+	.dropdown-menu > li:hover > .submenu {
+		display: block;
+	}
+}
+
+/* ============ small devices ============ */
+@media (max-width: 991px) {
+	.dropdown-menu .dropdown-menu {
+		margin-left: 0.7rem;
+		margin-right: 0.7rem;
+		margin-bottom: .5rem;
+	}
+}
+
+.nav-item, .dropdown-item {
+	white-space: nowrap;
+	user-select: none;
+}
+
+a.dropdown-item {
+	display: inline-block;
+	position: relative;
+}
+a.dropdown-item input[type='checkbox'], a.dropdown-item input[type='radio'] {
+	display: none;
+}
+a.dropdown-item label {
+	display: inline-block;
+	cursor: pointer;
+}
+a.dropdown-item label::before {
+	display: inline-block;
+	margin-right: 10px;
+	min-width: 15px;
+	content: "";
+	color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity));
+}
+a.dropdown-item input[type='checkbox']:checked + label::before {
+	content: "✓";
+}
+a.dropdown-item input[type='radio']:checked + label::before {
+	content: "●";
+}
+
+.has-submenu::after {
+	display: inline-block;
+	content: "»";
+	position: absolute;
+	margin-left: 10px;
+	right: 10px;
+}
+
+.scrollable-tabs {
+	position: relative;
+	flex: 3;
+	overflow-y: hidden;
+}
+.scrollable-tabs::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+.scrollable-tabs::-webkit-scrollbar-button {
+	width: 0px;
+	height: 0px;
+}
+.scrollable-tabs::-webkit-scrollbar-corner {
+	background: transparent;
+}
+.scrollable-tabs::-webkit-scrollbar-thumb {
+	background: #00E7FF;
+}
+.scrollable-tabs::-webkit-scrollbar-track {
+	background: #164357;
+	border: none;
+	border-radius: 0px;
 }

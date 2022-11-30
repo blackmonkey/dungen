@@ -85,13 +85,9 @@ DG.findInArrayById = function (id, arrayToSearch) {
 };
 // Dig a dungeon ---------------------------------------------------------
 DG.digDungeon = function (locationType) {
-	var data = { nodes: null, edges: null };
-	var levelSelect = document.getElementById("level");
-	var sizeSelect = document.getElementById("size");
-	var patternSelect = document.getElementById("pattern");
-	var selectedSize = "5,5";
-	var dungeonLevelSelected = levelSelect.options[levelSelect.selectedIndex].value;
-	var selectedPattern = patternSelect.options[patternSelect.selectedIndex].value;
+	let selectedSize = $('input[name="lnf-size"]:checked').val().split(',').map(x => parseInt(x));
+	let dungeonLevelSelected = $('input[name="lnf-level"]:checked').val();
+	let selectedPattern = $('input[name="lnf-pattern"]:checked').val();
 	DG.nameTheDungeon();
 	DG.data.nodes = [];
 	DG.data.edges = [];
@@ -100,38 +96,37 @@ DG.digDungeon = function (locationType) {
 	DG.data.monsters = {};
 	DG.monsterHold = undefined;
 	DG.data.locationType = locationType;
-	DG.data.treasureMultiplier = parseFloat($("#treasureMultiplier").val()) || 1;
+	DG.data.treasureMultiplier = parseFloat($('#treasureMultiplier').val()) || 1;
 	DG.roomCount = 0;
 	DG.edgeCount = 0;
-	if (dungeonLevelSelected === "wilds") {
+	if (dungeonLevelSelected === 'wilds') {
 		DG.data.dungeonLevel = dungeonLevelSelected
 	} else {
 		DG.data.dungeonLevel = parseInt(dungeonLevelSelected);
 	}
-	selectedSize = sizeSelect.options[sizeSelect.selectedIndex].value;
-	DG.minRooms = parseInt(selectedSize.split(",")[0]);
-	DG.maxRooms = parseInt(selectedSize.split(",")[1]);
+	DG.minRooms = selectedSize[0];
+	DG.maxRooms = selectedSize[1];
 	DG.setRandomRoomCount();
 	DG.makeRooms();
 	switch (selectedPattern) {
-		case "branch":
+		case 'branch':
 			DG.linkStrats.branchLink(DG.allNodeIds());
 			break;
-		case "branch_loops":
+		case 'branch_loops':
 			DG.linkStrats.branchLink(DG.allNodeIds());
 			DG.linkStrats.randomLink(Math.floor(DG.roomCount / 5) + 1);
 			break;
-		case "triangles":
+		case 'triangles':
 			DG.linkStrats.trianglesLink(DG.allNodeIds());
 			DG.linkStrats.randomLink(Math.floor(DG.roomCount / 6) + 1);
 			break;
-		case "grid":
+		case 'grid':
 			DG.linkStrats.gridLink();
 			break;
-		case "random":
+		case 'random':
 			DG.linkStrats.randomAllLink(Math.floor(DG.roomCount) + 2);
 			break;
-		case "mixed":
+		case 'mixed':
 			break;
 		default:
 	}

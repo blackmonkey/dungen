@@ -8,7 +8,7 @@
 	<link href="vis/vis.css" rel="stylesheet" type="text/css">
 	<link href="css/dungen.css" rel="stylesheet" type="text/css">
 </head>
-<body class="container-fluid">
+<body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">DunMap</a>
@@ -17,14 +17,57 @@
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#dungeon_key">Key</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#selectThemeModal">Theme</a></li>
-					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
+					<li class="nav-item active dropdown">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Map</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#dungeon_key">Key</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Look &amp; Feel</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item has-submenu" href="#">Level</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-1" type="radio" value="0" checked/><label for="lnf-level-1">Level 1</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-2" type="radio" value="1"/><label for="lnf-level-2">Level 2</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-3" type="radio" value="2"/><label for="lnf-level-3">Level 3</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-4" type="radio" value="3"/><label for="lnf-level-4">Level 4</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-5" type="radio" value="4"/><label for="lnf-level-5">Level 5</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-6" type="radio" value="5"/><label for="lnf-level-6">Level 6</label></a></li>
+									<li><a class="dropdown-item" href="#"><input name="lnf-level" id="lnf-level-wilds" type="radio" value="wilds"/><label for="lnf-level-wilds">Wilds</label></a></li>
+								</ul>
+							</li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#treasureMultiplierModal">Treasure Multiplier ...</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#selectThemeModal">Theme</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
+						</ul>
+					</li>
 					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
+	<div class="modal fade" id="treasureMultiplierModal" tabindex="-1" aria-labelledby="treasureMultiplierModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="treasureMultiplierModalLabel">Treasure Multiplier</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="treasureMultiplier">Treasure X</span>
+						<input type="number" class="form-control" id="treasureMultiplier" value="1.0" min="0" step="0.1">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -236,17 +279,6 @@
 		</div>
 	</div>
 
-	<select id="level">
-		<option value="0">Level 1</option>
-		<option value="1">Level 2</option>
-		<option value="2">Level 3</option>
-		<option value="3">Level 4</option>
-		<option value="4">Level 5</option>
-		<option value="5">Level 6</option>
-		<option value="wilds">Wilds</option>
-	</select>
-	<label for="treasureMultiplier" style="padding-right: 5px">Treasure X </label>
-	<input id="treasureMultiplier" value='1.0' size='3' />
 	<label for="map_url" style="padding-right: 5px">Image URL</label>
 	<select id="map_url_select"></select>
 	<input id="map_url" size="30" placeholder="URL of source map"

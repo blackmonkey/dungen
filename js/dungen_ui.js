@@ -1,15 +1,5 @@
 // UI elements
 
-var regenerateButton = document.getElementById("regenerate");
-regenerateButton.addEventListener("click", function () {
-	DG.digDungeon("dungeon");
-});
-
-var wildsButton = document.getElementById("wilds");
-wildsButton.addEventListener("click", function () {
-	DG.digDungeon("wilds");
-});
-
 var saveButton = document.getElementById("save");
 saveButton.addEventListener("click", function () {
 	DG.ui.saveDungeon();
