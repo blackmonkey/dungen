@@ -47,6 +47,7 @@ DG.view = {
 		DG.view.initSaveMapDialog();
 		DG.view.initLoadMapDialog();
 		DG.view.initDeleteMapDialog();
+		DG.view.initLoadMapBgDialog();
 	},
 
 	initEditEdgeDialog: function () {
@@ -216,8 +217,8 @@ DG.view = {
 			let savedData = JSON.parse(json);
 			DG.data = $.extend(DG.data, savedData);
 			DG.updateSettlementsData(DG.data.settlements);
-			$("#map_url").val(DG.data.imageSource);
-			DG.loadMapImage();
+			DG.view.setMapBackground(DG.data.imageSource);
+			DG.loadMapBackground();
 			DG.initNetwork();
 			DG.ui.loadNotesFields();
 			// update styles loaded from saved dungeons, without losing styles that are actually set
@@ -239,6 +240,46 @@ DG.view = {
 			$('#saveMapModal #dungeonName').val('');
 			$('#menu-delete-map').addClass('disabled');
 		});
+	},
+
+	initLoadMapBgDialog: function() {
+		let dialog = $('#loadMapBgModal');
+		let selectCtrl = dialog.find('#mapBgs');
+		let backgrounds = DG.ui.mapBackgrounds.map(item => [item[1], item[0]]);
+		DG.view.selectControl(selectCtrl, backgrounds, backgrounds[0]);
+		selectCtrl.on('change', e => DG.loadMapBackground(selectCtrl.val()));
+
+		let alert = dialog.find('.alert');
+		dialog.on('show.bs.modal', evt => alert.hide());
+		dialog.find('#loadMap-btn-load').click(() => {
+			let url = dialog.find('#otherMapBg').val();
+			if (url) {
+				DG.loadMapBackground(url);
+			} else {
+				alert.show();
+			}
+		});
+	},
+
+	getMapBackground: function() {
+		let dialog = $('#loadMapBgModal');
+		return dialog.find('#otherMapBg').val() || dialog.find('#mapBgs').val();
+	},
+
+	setMapBackground: function(url) {
+		let dialog = $('#loadMapBgModal');
+		let selectCtrl = dialog.find('#mapBgs');
+		let inputCtrl = dialog.find('#otherMapBg');
+		if (selectCtrl.find('option[value="' + url + '"]').length != 0) {
+			selectCtrl.val(url);
+			inputCtrl.val('');
+		} else {
+			inputCtrl.val(url);
+		}
+	},
+
+	renderMapBackground: function(url) {
+		$('#dungeon').css('background-image', 'url(' + url + ')');
 	},
 };
 

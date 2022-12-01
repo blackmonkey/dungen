@@ -19,7 +19,6 @@ function postLoadInitialize() {
 			})
 		});
 	}
-	populateUI();
 	DG.digDungeon();
 	observeTable();
 

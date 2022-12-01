@@ -129,40 +129,17 @@ DG.digDungeon = function (locationType) {
 			break;
 		default:
 	}
-	DG.loadMapImage();
+	DG.loadMapBackground();
 	DG.initNetwork();
 	DG.data.notes = DG.populateNotes();
 	DG.ui.populateNotesFields();
 };
 
-DG.loadMapImage = function () {
-	function drawImageScaled(img, ctx) {
-		// GameAlchemist on Stack Overflow, http://stackoverflow.com/questions/23104582/scaling-an-image-to-fit-on-canvas
-		var canvas = ctx.canvas;
-		var hRatio = canvas.width / img.width;
-		var vRatio = canvas.height / img.height;
-		var ratio = Math.min(hRatio, vRatio, 1);
-		var centerShift_x = (canvas.width - img.width * ratio) / 2;
-		var centerShift_y = (canvas.height - img.height * ratio) / 2;
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(img, 0, 0, img.width, img.height,
-			centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
-		//var hRatio = canvas.width / img.width    ;
-		//var vRatio = canvas.height / img.height  ;
-		//var ratio  = Math.min ( hRatio, vRatio );
-		//ctx.drawImage(img, 0,0, img.width, img.height, 0,0,img.width*ratio, img.height*ratio);
-	}
-	var imgSource = $("#map_url").val();
-	DG.data.imageSource = imgSource;
-	var image = new Image();
-	image.src = imgSource;
-	var canvas = document.getElementById('dungeon_map');
-	var nodesCanvasDiv = $('div#dungeon');
-	canvas.width = nodesCanvasDiv.width();
-	canvas.height = nodesCanvasDiv.height();
-	var context = canvas.getContext('2d');
-	image.onload = function () {
-		drawImageScaled(image, context);
+DG.loadMapBackground = function (imgSource='') {
+	imgSource = imgSource || DG.view.getMapBackground();
+	if (imgSource) {
+		DG.data.imageSource = imgSource;
+		DG.view.renderMapBackground(imgSource);
 	}
 };
 
@@ -401,7 +378,7 @@ DG.initNetwork = function () {
 };
 
 DG.nameNode = function (nodeNum) {
-	return "" + (nodeNum) + ": " + DG.randomNodeLabel();
+	return nodeNum + ': ' + DG.randomNodeLabel();
 };
 
 DG.randomNodeLabel = function () {

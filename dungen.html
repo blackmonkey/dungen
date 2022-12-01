@@ -21,6 +21,7 @@
 						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Map</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="#dungeon_key">Key</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapBgModal">Load background ...</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');">Generate</a></li>
 							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('wilds');">Wilds</a></li>
@@ -364,21 +365,37 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="loadMapBgModal" tabindex="-1" aria-labelledby="loadMapBgModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="loadMapBgModalLabel">Load dungeon background</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<span class="input-group-text" for="mapBgs">Select</span>
+						<select class="form-select" id="mapBgs"></select>
+					</div>
+					<div class="input-group">
+						<span class="input-group-text" for="otherMapBg">Or other</span>
+						<input type="text" class="form-control" id="otherMapBg">
+						<button class="btn btn-success" id="loadMap-btn-load">Load</button>
+					</div>
+					<div class="alert alert-warning">Please input background image url!</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="container my-3">
 	</div>
 
-	<label for="map_url" style="padding-right: 5px">Image URL</label>
-	<select id="map_url_select"></select>
-	<input id="map_url" size="30" placeholder="URL of source map"
-		value="http://2.bp.blogspot.com/-JpzHDN3kKF0/VA5sgJIqJnI/AAAAAAAABnY/U-Xx1BtK35A/s1600/stone_walls_curve.png" />
 	<button id="lock" data-status="unlocked">Clicks add</button>
 
 	<button id="chrome-dl" type="button" onclick="DG.chromeSaveImage()" style="display:none">Download Image</button>
 	<button id="move_table" style="display:none">Move Table for Printing</button>
-	<div id="positioner" style="position: relative;">
-		<canvas id="dungeon_map">canvas test</canvas>
-		<div id="dungeon" class="map_nodes"></div>
-	</div>
+	<div id="dungeon" class="w-100 vh-100"></div>
 	<span class="clear-both"></span>
 	<div id="table-holder">
 		<table class="dungen table table-bordered" id="dungeon_key"></table>
