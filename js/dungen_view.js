@@ -48,6 +48,7 @@ DG.view = {
 		DG.view.initLoadMapDialog();
 		DG.view.initDeleteMapDialog();
 		DG.view.initLoadMapBgDialog();
+		DG.view.initMenu();
 	},
 
 	initEditEdgeDialog: function () {
@@ -280,6 +281,21 @@ DG.view = {
 
 	renderMapBackground: function(url) {
 		$('#dungeon').css('background-image', 'url(' + url + ')');
+	},
+
+	initMenu: function() {
+		if (window.navigator.userAgent.indexOf('Chrome') > 0) {
+			$('#menu-download-image').removeClass('disabled');
+		}
+	},
+
+	// save function works in Chrome
+	chromeSaveImage: function () {
+		let canvas = $('canvas')[0];
+		$('<a>').attr({
+			download: $('#downloadMapModal #mapImageName').val(),
+			href: canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'),
+		})[0].click();
 	},
 };
 

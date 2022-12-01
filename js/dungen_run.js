@@ -5,7 +5,6 @@ $(document).ready(function () {
 });
 
 function postLoadInitialize() {
-	var ua = window.navigator.userAgent;
 	function observeTable(page) {
 		$('table.dungen').on('click', 'tr.node_row', function () {
 			DG.nodeDialog(DG.nodesDataSet.get(this.id), function () {
@@ -21,8 +20,4 @@ function postLoadInitialize() {
 	}
 	DG.digDungeon();
 	observeTable();
-
-	if (ua.indexOf("Chrome") > 0) {
-		$("button#chrome-dl").show();
-	}
 }

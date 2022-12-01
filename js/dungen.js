@@ -882,21 +882,6 @@ var DG = {
 		return "Tp: " + trap + "<br>";
 	},
 
-	// save button works in Chrome
-	chromeSaveImage: function () {
-		var ua = window.navigator.userAgent;
-
-		// save image without file type
-		var canvas = $("canvas")[0];
-		document.location.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-
-		// save image as png
-		var link = document.createElement('a');
-		var fileName = prompt("Name for image file?", "dungeon.png");
-		link.download = fileName;
-		link.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-		link.click();
-	},
 	populateNotes: function () {
 		return DG.theDungeonName() + "\n\n" + DG.adventureHook() + "\n\n"
 	},

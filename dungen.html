@@ -29,6 +29,8 @@
 							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#saveMapModal">Save to storage ...</a></li>
 							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapModal">Load from storage ...</a></li>
 							<li><a class="dropdown-item disabled" href="#" id="menu-delete-map" data-bs-toggle="modal" data-bs-target="#deleteMapModal">Delete from storage</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item disabled" href="#" id="menu-download-image" data-bs-toggle="modal" data-bs-target="#downloadMapModal">Download Dungeon ...</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
@@ -388,13 +390,31 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="downloadMapModal" tabindex="-1" aria-labelledby="downloadMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="downloadMapModalLabel">Download Dungeon as image</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-text" for="mapImageName">Name for image file</span>
+						<input type="text" class="form-control" id="mapImageName" value="dungeon.png">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="DG.view.chromeSaveImage();">Download</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="container my-3">
 	</div>
 
 	<button id="lock" data-status="unlocked">Clicks add</button>
 
-	<button id="chrome-dl" type="button" onclick="DG.chromeSaveImage()" style="display:none">Download Image</button>
-	<button id="move_table" style="display:none">Move Table for Printing</button>
 	<div id="dungeon" class="w-100 vh-100"></div>
 	<span class="clear-both"></span>
 	<div id="table-holder">
