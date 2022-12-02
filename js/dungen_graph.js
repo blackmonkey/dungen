@@ -137,10 +137,10 @@ DG.digDungeon = function (locationType) {
 };
 
 DG.loadMapBackground = function (imgSource='') {
-	imgSource = imgSource || DG.view.getMapBackground();
+	imgSource = imgSource || DG.ui.getMapBackground();
 	if (imgSource) {
 		DG.data.imageSource = imgSource;
-		DG.view.renderMapBackground(imgSource);
+		DG.ui.renderMapBackground(imgSource);
 	}
 };
 

@@ -49,10 +49,18 @@ DG.ui = {
 		['BL: Herstmonceux upstairs', 'http://3.bp.blogspot.com/-ntum4mhsiMQ/Uv8rAya18bI/AAAAAAAAA_o/URlGCguamss/s1600/Herstmonceux_BL.png'],
 		['BL: Herstmonceux ground', 'http://2.bp.blogspot.com/--sJX2iznte8/Uv8rGi4wDII/AAAAAAAABAA/9iN89fYfMmU/s1600/herstmonceux_ground_floor_plan_BL.png']
 	],
+	solidColorList: ['gray', 'black', 'red', 'green', 'blue', 'maroon', 'brown', 'darkblue', 'gunmetal'],
+	bgColorList: ['white', 'wheat', 'salmon', 'lightblue', 'lightgreen', 'lightgray', 'gray', 'black', 'red', 'green', 'blue', 'maroon', 'brown', 'darkblue', 'gunmetal'],
+	shapeList: ['box', 'ellipse', 'circle', 'database', 'text', 'diamond', 'dot', 'star', 'triangle', 'triangleDown', 'square'],
+	widthList: ['0', '1', '2', '3', '4', '5', '6', '8', '10'],
+	radiusList: ['0', '1', '2', '3', '4', '5', '6', '8', '10'],
+	sizeList: ['3', '5', '8', '10', '15', '20', '25', '30'],
+	textSizeList: ['10', '12', '14', '16', '18', '20', '22', '24', '28', '32', '36', '40'],
 
 	displaySettlements: function () {
 		$('#settlements').val(DG.data.settlements.join('\n'));
 	},
+
 	populateNotesFields: function () {
 		$('#notes').val(DG.data.notes);
 		$('#settlements').val(DG.settlementsNote()).change();
@@ -60,6 +68,7 @@ DG.ui = {
 		$('#wanderingMonsters').val(DG.wanderingMonstersNote()).change();
 		$('#organizations').val(DG.organizationsNote()).change();
 	},
+
 	loadNotesFields: function () {
 		$('#notes').val(DG.data.notes);
 		$('#settlements').val(DG.data.settlements.join('\n'));
@@ -67,9 +76,421 @@ DG.ui = {
 		$('#wanderingMonsters').val(DG.data.wanderingMonsters.join('\n'));
 		$('#organizations').val(DG.data.organizations.join('\n'));
 	},
+
+	selectControl: function (selectCtrl, options, currentVal) {
+		selectCtrl.empty();
+		options.forEach(opt => {
+			if (opt instanceof Array) {
+				selectCtrl.append($('<option>', {value: opt[0], text: opt[1]}));
+			} else { // opt is a string
+				selectCtrl.append($('<option>', {value: opt, text: opt}));
+			}
+		});
+		selectCtrl.val(currentVal).change();
+	},
+
+	checkBoxSet: function (panel, allTags, tagData) {
+		panel.empty();
+		for (let i = 0; i < allTags.length; i++) {
+			let tagId = panel.attr('id') + '-' + allTags[i];
+			$('<input>').attr({
+				type: 'checkbox',
+				autocomplete: 'off',
+				class: 'btn-check',
+				checked: tagData.indexOf(allTags[i]) !== -1,
+				id: tagId,
+				name: allTags[i],
+				value: allTags[i],
+			}).appendTo(panel);
+			$('<label>').attr({
+				class: 'btn btn-outline-success',
+				for: tagId,
+			}).text(allTags[i]).appendTo(panel);
+		}
+	},
+
+	init: function () {
+		DG.ui.initEditEdgeDialog();
+		DG.ui.initSelectThemeDialog();
+		DG.ui.initStyleDialog();
+		DG.ui.initNodeDialog();
+		DG.ui.initSaveMapDialog();
+		DG.ui.initLoadMapDialog();
+		DG.ui.initDeleteMapDialog();
+		DG.ui.initLoadMapBgDialog();
+		DG.ui.initMenu();
+		DG.ui.initExportMapDialog();
+		DG.ui.initImportMapDialog();
+		DG.ui.initFields();
+	},
+
+	initEditEdgeDialog: function () {
+		let dialog = $('#editEdgeModal');
+		DG.ui.selectControl(dialog.find('#edgeColor'), DG.ui.solidColorList, DG.ui.solidColorList[0]);
+	},
+
+	initSelectThemeDialog: function () {
+		let dialog = $('#selectThemeModal');
+		DG.ui.checkBoxSet(dialog.find('#monsterTags'), DG.stock.monsterTags, DG.data.monsterTags);
+		DG.ui.checkBoxSet(dialog.find('#nodeTags'), DG.stock.nodeTags, DG.data.nodeTags);
+		DG.ui.checkBoxSet(dialog.find('#edgeTags'), DG.stock.edgeTags, DG.data.edgeTags);
+		dialog.find('#theme-btn-use').click(() => {
+			let monsterTags = dialog.find('#monsterTags input:checked').map(() => this.value).get();
+			let nodeTags = dialog.find('#nodeTags input:checked').map(() => this.value).get();
+			let edgeTags = dialog.find('#edgeTags input:checked').map(() => this.value).get();
+			DG.data.monsterTags = monsterTags;
+			DG.data.nodeTags = nodeTags;
+			DG.data.nodeTable = DG.filterListByTags(DG.stock.nodeLabels, nodeTags);
+			DG.data.edgeTags = edgeTags;
+			DG.data.edgeTable = DG.filterListByTags(DG.stock.edgeLabels, edgeTags);
+			DG.data.detailsTable = DG.filterListByTags(DG.stock.details, nodeTags);
+		});
+		dialog.find('#theme-btn-any').click(() => {
+			dialog.find('#monsterTags input, #nodeTags input, #edgeTags input').prop('checked', false);
+			DG.data.monsterTags = [];
+			DG.data.nodeTags = [];
+			DG.data.nodeTable = [];
+			DG.data.edgeTags = [];
+			DG.data.edgeTable = [];
+		});
+	},
+
+	initStyleDialog: function() {
+		let dialog = $('#styleModal');
+		dialog.find('#style-fontFace').val(DG.data.style.fontFace);
+		DG.ui.selectControl(dialog.find('#style-nodeTextSize'), DG.ui.textSizeList, DG.data.style.fontSize);
+		DG.ui.selectControl(dialog.find('#style-fontColor'), DG.ui.bgColorList, DG.data.style.fontColor);
+		DG.ui.selectControl(dialog.find('#style-bgColor'), DG.ui.bgColorList, DG.data.style.bgColor);
+		DG.ui.selectControl(dialog.find('#style-borderColor'), DG.ui.solidColorList, DG.data.style.border);
+		DG.ui.selectControl(dialog.find('#style-shape'), DG.ui.shapeList, DG.data.style.shape);
+		DG.ui.selectControl(dialog.find('#style-nodeSize'), DG.ui.sizeList, DG.data.style.size);
+		DG.ui.selectControl(dialog.find('#style-boxBorderRadius'), DG.ui.radiusList, DG.data.style.borderRadius);
+		DG.ui.selectControl(dialog.find('#style-borderWidth'), DG.ui.widthList, DG.data.style.borderWidth);
+		DG.ui.selectControl(dialog.find('#style-edgeWidth'), DG.ui.widthList, DG.data.style.edges.width);
+		DG.ui.selectControl(dialog.find('#style-edgeColor'), DG.ui.solidColorList, DG.data.style.edges.color.color);
+		dialog.find('#style-btn-use').click(() => {
+			DG.data.style.fontFace = dialog.find('#style-fontFace').val();
+			DG.data.style.fontSize = parseInt(dialog.find('#style-nodeTextSize').val());
+			DG.data.style.fontColor = parseInt(dialog.find('#style-fontColor').val());
+			DG.data.style.bgColor = dialog.find('#style-bgColor').val();
+			DG.data.style.highlightBgColor = DG.data.style.bgColor;
+			DG.data.style.border = dialog.find('#style-borderColor').val();
+			DG.data.style.edges.width = dialog.find('#style-edgeWidth').val();
+			DG.data.style.edges.color.color = dialog.find('#style-edgeColor').val();
+			DG.data.style.borderWidth = dialog.find('#style-borderWidth').val();
+			DG.data.style.shape = dialog.find('#style-shape').val();
+			DG.data.style.size = parseInt(dialog.find('#style-nodeSize').val());
+			DG.data.style.borderRadius = parseInt(dialog.find('#style-boxBorderRadius').val());
+		});
+		dialog.find('#style-btn-apply').click(() => {
+			DG.data.style.fontFace = dialog.find('#style-fontFace').val();
+			DG.data.style.fontSize = parseInt(dialog.find('#style-nodeTextSize').val());
+			DG.data.style.fontColor = parseInt(dialog.find('#style-fontColor').val());
+			DG.data.style.bgColor = dialog.find('#style-bgColor').val();
+			DG.data.style.highlightBgColor = DG.data.style.bgColor;
+			DG.data.style.border = dialog.find('#style-borderColor').val();
+			DG.data.style.edges.width = dialog.find('#style-edgeWidth').val();
+			DG.data.style.edges.color.color = dialog.find('#style-edgeColor').val();
+			DG.data.style.borderWidth = dialog.find('#style-borderWidth').val();
+			DG.data.style.shape = dialog.find('#style-shape').val();
+			DG.data.style.size = parseInt(dialog.find('#style-nodeSize').val());
+			DG.data.style.borderRadius = parseInt(dialog.find('#style-boxBorderRadius').val());
+
+			DG.data.nodes.forEach(node => {
+				node.font.face = DG.data.style.fontFace;
+				node.font.size = DG.data.style.fontSize;
+				node.font.color = DG.data.style.fontColor;
+				node.borderWidth = DG.data.style.borderWidth;
+				node.color.background = DG.data.style.bgColor;
+				node.color.highlight.background = DG.data.style.highlightBgColor;
+				node.color.border = DG.data.style.border;
+				node.shape = DG.data.style.shape;
+				node.size = DG.data.style.size;
+				node.shapeProperties.borderRadius = DG.data.style.borderRadius;
+			});
+			DG.data.edges.forEach(edge => {
+				edge.width = DG.data.style.edges.width;
+				edge.color = DG.data.style.edges.color;
+			});
+
+			DG.initNetwork();
+		});
+		dialog.find('#style-btn-reset').click(() => {
+			$.extend(DG.data.style, DG.defaultStyle);
+			dialog.find('#style-fontFace').val(DG.data.style.fontFace);
+			dialog.find('#style-nodeTextSize').val(DG.data.style.fontSize).change();
+			dialog.find('#style-fontColor').val(DG.data.style.fontColor).change();
+			dialog.find('#style-bgColor').val(DG.data.style.bgColor).change();
+			dialog.find('#style-borderColor').val(DG.data.style.border).change();
+			dialog.find('#style-shape').val(DG.data.style.shape).change();
+			dialog.find('#style-nodeSize').val(DG.data.style.size).change();
+			dialog.find('#style-boxBorderRadius').val(DG.data.style.borderRadius).change();
+			dialog.find('#style-borderWidth').val(DG.data.style.borderWidth).change();
+			dialog.find('#style-edgeWidth').val(DG.data.style.edges.width).change();
+			dialog.find('#style-edgeColor').val(DG.data.style.edges.color.color).change();
+		});
+	},
+
+	initNodeDialog: function() {
+		let dialog = $('#nodeModal');
+		dialog.find('#node-btn-reroll').click(() => {
+			let contents = DG.brToLf(DG.makeContents(DG.data.dungeonLevel));
+			dialog.find('#nodeDescription').val(contents);
+		});
+		DG.ui.selectControl(dialog.find('#node-nodeTextSize'), DG.ui.textSizeList, DG.data.style.fontSize);
+		DG.ui.selectControl(dialog.find('#node-fontColor'), DG.ui.bgColorList, DG.data.style.fontColor);
+		DG.ui.selectControl(dialog.find('#node-bgColor'), DG.ui.bgColorList, DG.data.style.bgColor);
+		DG.ui.selectControl(dialog.find('#node-borderColor'), DG.ui.solidColorList, DG.data.style.border);
+		DG.ui.selectControl(dialog.find('#node-shape'), DG.ui.shapeList, DG.data.style.shape);
+		DG.ui.selectControl(dialog.find('#node-nodeSize'), DG.ui.sizeList, DG.data.style.size);
+		DG.ui.selectControl(dialog.find('#node-boxBorderRadius'), DG.ui.radiusList, DG.data.style.borderRadius);
+		DG.ui.selectControl(dialog.find('#node-borderWidth'), DG.ui.widthList, DG.data.style.borderWidth);
+	},
+
+	initSaveMapDialog: function() {
+		let dialog = $('#saveMapModal');
+		dialog.find('#save-map-btn-ok').click(() => {
+			let key = dialog.find('#dungeonName').val();
+			let json = JSON.stringify(DG.data);
+			localStorage[key] = json;
+			DG.data.mapName = key;
+			$('#menu-delete-map').removeClass('disabled');
+		});
+	},
+
+	initLoadMapDialog: function() {
+		let dialog = $('#loadMapModal');
+		let selectCtrl = dialog.find('#savedDungeons');
+		let loadBtn = dialog.find('#load-map-btn-ok');
+		dialog.on('show.bs.modal', evt => {
+			let keys = [];
+			for (i = 0; i < localStorage.length; i++) {
+				key = localStorage.key(i);
+				keys.push(key);
+			}
+			if (keys.length === 0) {
+				selectCtrl.empty();
+				loadBtn.addClass('disabled');
+				return;
+			}
+			let curName = DG.data.mapName.length > 0 ? DG.data.mapName : keys[0];
+			DG.ui.selectControl(selectCtrl, keys, curName);
+			loadBtn.removeClass('disabled');
+		});
+		loadBtn.click(() => {
+			let selectedKey = selectCtrl.val();
+			let json = localStorage[selectedKey];
+			if (json === 'unloaded') {
+				alert('Failed to load dungeon "' + selectedKey + '"!');
+				return;
+			}
+
+			$('#saveMapModal #dungeonName').val(selectedKey);
+			$('#menu-delete-map').removeClass('disabled');
+
+			let savedData = JSON.parse(json);
+			DG.data = $.extend(DG.data, savedData);
+			DG.updateSettlementsData(DG.data.settlements);
+			DG.ui.setMapBackground(DG.data.imageSource);
+			DG.loadMapBackground();
+			DG.initNetwork();
+			DG.ui.loadNotesFields();
+			// update styles loaded from saved dungeons, without losing styles that are actually set
+			DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
+			DG.data.style = $.extend(DG.data.style, savedData.style);
+			DG.data.mapName = selectedKey;
+			// might have to go deeper...
+		});
+	},
+
+	initDeleteMapDialog: function() {
+		let dialog = $('#deleteMapModal');
+		dialog.on('show.bs.modal', evt => {
+			dialog.find('#map-key').text(DG.data.mapName);
+		});
+		dialog.find('#delete-map-btn-ok').click(() => {
+			localStorage.removeItem(DG.data.mapName);
+			DG.data.mapName = '';
+			$('#saveMapModal #dungeonName').val('');
+			$('#menu-delete-map').addClass('disabled');
+		});
+	},
+
+	initLoadMapBgDialog: function() {
+		let dialog = $('#loadMapBgModal');
+		let selectCtrl = dialog.find('#mapBgs');
+		let backgrounds = DG.ui.mapBackgrounds.map(item => [item[1], item[0]]);
+		DG.ui.selectControl(selectCtrl, backgrounds, backgrounds[0]);
+		selectCtrl.on('change', e => DG.loadMapBackground(selectCtrl.val()));
+
+		let alert = dialog.find('.alert');
+		dialog.on('show.bs.modal', evt => alert.hide());
+		dialog.find('#loadMap-btn-load').click(() => {
+			let url = dialog.find('#otherMapBg').val();
+			if (url) {
+				DG.loadMapBackground(url);
+			} else {
+				alert.show();
+			}
+		});
+	},
+
+	getMapBackground: function() {
+		let dialog = $('#loadMapBgModal');
+		return dialog.find('#otherMapBg').val() || dialog.find('#mapBgs').val();
+	},
+
+	setMapBackground: function(url) {
+		let dialog = $('#loadMapBgModal');
+		let selectCtrl = dialog.find('#mapBgs');
+		let inputCtrl = dialog.find('#otherMapBg');
+		if (selectCtrl.find('option[value="' + url + '"]').length != 0) {
+			selectCtrl.val(url);
+			inputCtrl.val('');
+		} else {
+			inputCtrl.val(url);
+		}
+	},
+
+	renderMapBackground: function(url) {
+		$('#dungeon').css('background-image', 'url(' + url + ')');
+	},
+
+	initMenu: function() {
+		if (window.navigator.userAgent.indexOf('Chrome') > 0) {
+			$('#menu-download-image').removeClass('disabled');
+		}
+
+		$('#menu-clicks-add').change(evt => {
+			DG.drawOptions.interaction.dragNodes = !evt.currentTarget.checked;
+			DG.network.interactionHandler.options.dragNodes = !evt.currentTarget.checked;
+		});
+	},
+
+	// save function works in Chrome
+	chromeSaveImage: function () {
+		let canvas = $('canvas')[0];
+		$('<a>').attr({
+			download: $('#downloadMapModal #mapImageName').val(),
+			href: canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'),
+		})[0].click();
+	},
+
+	reskin: function () {
+		DG.replaceText($('#reskinModal #reskinTextFrom').val(), $('#reskinModal #reskinTextTo').val());
+	},
+
+	initExportMapDialog: function() {
+		let dialog = $('#exportMapModal');
+		dialog.on('show.bs.modal', evt => dialog.find('#exportMapData').val(JSON.stringify(DG.data)));
+	},
+
+	initImportMapDialog: function() {
+		let dialog = $('#importMapModal');
+		let dataField = dialog.find('#importMapData');
+		let alert = dialog.find('.alert');
+		dialog.on('show.bs.modal', evt => {
+			dataField.val('');
+			alert.hide();
+		});
+		dialog.find('#import-btn-ok').click(evt => {
+			let json = dataField.val();
+			if (json) {
+				DG.data = JSON.parse(json);
+				DG.ui.setMapBackground(DG.data.imageSource);
+				DG.updateSettlementsData(DG.data.settlements);
+				DG.loadMapBackground();
+				DG.initNetwork();
+				DG.data.mapName = 'imported';
+				$('#saveMapModal #dungeonName').val(DG.data.mapName);
+				DG.ui.loadNotesFields();
+				DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
+				dialog.modal('hide');
+			} else {
+				alert.show();
+			}
+		});
+	},
+
+	initFields: function() {
+		$('#notes').change(evt => DG.data.notes = $(evt.currentTarget).val());
+		$('#settlements').change(evt => DG.data.settlements = DG.splitToArray($(evt.currentTarget).val()));
+		$('#wanderingMonsters').change(evt => DG.data.wanderingMonsters = DG.splitToArray($(evt.currentTarget).val()));
+		$('#organizations').change(evt => DG.data.organizations = DG.splitToArray($(evt.currentTarget).val()));
+		$('#monsterRelations').change(evt => DG.data.monsterRelations = DG.splitToArray($(evt.currentTarget).val()));
+	},
 }
 
+// Arguments to the Vis.Network creation call ----------------------------------------------
+DG.nodeDialog = function (node, callback) {
+	node = DG.nodesDataSet.get(node.id);
+
+	let dialog = $('#nodeModal');
+	dialog.find('#nodeName').val(node.label);
+	dialog.find('#nodeDescription').val(DG.brToLf(node.title));
+	dialog.find('#node-fontFace').val(node.font.face).change();
+	dialog.find('#node-nodeTextSize').val(node.font.size).change();
+	dialog.find('#node-fontColor').val(node.font.color).change();
+	dialog.find('#node-bgColor').val(node.color.background).change();
+	dialog.find('#node-borderColor').val(node.color.border).change();
+	dialog.find('#node-shape').val(node.shape).change();
+	dialog.find('#node-nodeSize').val(node.size).change();
+	dialog.find('#node-boxBorderRadius').val(node.shapeProperties.borderRadius).change();
+	dialog.find('#node-borderWidth').val(node.borderWidth).change();
+	dialog.find('#node-btn-save').click(() => {
+		node.label = dialog.find('#nodeName').val();
+		node.title = DG.lfToBr(dialog.find('#nodeDescription').val());
+		node.font.face = dialog.find('#node-fontFace').val();
+		node.font.size = parseInt(dialog.find('#node-nodeTextSize').val());
+		node.font.color = dialog.find('#node-fontColor').val();
+		node.color.background = dialog.find('#node-bgColor').val();
+		node.color.highlight.background = node.color.background;
+		node.color.border = dialog.find('#node-borderColor').val();
+		node.borderWidth = dialog.find('#node-borderWidth').val();
+		node.shape = dialog.find('#node-shape').val();
+		node.size = parseInt(dialog.find('#node-nodeSize').val());
+		node.shapeProperties.borderRadius = parseInt(dialog.find('#node-boxBorderRadius').val());
+		DG.addMonstersToList();
+		DG.nodesDataSet.update(node);
+		DG.fillKey();
+		callback(node);
+	});
+	dialog.modal('show');
+};
+
+DG.edgeDialog = function (edge, callback) {
+	let fromNodeId = edge.from;
+	let toNodeId = edge.to;
+
+	let currentColor;
+	if (typeof edge.color === 'undefined') {
+		edge.color = DG.data.style.edges.color;
+	}
+	currentColor = edge.color.color;
+
+	let dialog = $('#editEdgeModal');
+	dialog.find('#edgeName').val(DG.edgesDataSet.get(edge.id).label);
+	dialog.find('#edgeColor').val(currentColor).change();
+
+	let nodes = DG.nodesDataSet.map(node => [node.id, node.label], {
+		fields: ['id', 'label'],
+		returnType: 'Object'
+	});
+	DG.ui.selectControl(dialog.find('#fromNode'), nodes, fromNodeId);
+	DG.ui.selectControl(dialog.find('#toNode'), nodes, toNodeId);
+
+	dialog.find('#edge-btn-save').click(() => {
+		edge.label = dialog.find('#edgeName').val();
+		edge.color.color = dialog.find('#edgeColor').val();
+		edge.from = dialog.find('#fromNode').val();
+		edge.to = dialog.find('#toNode').val();
+		DG.edgesDataSet.update(edge);
+		callback(edge);
+	});
+	dialog.modal('show');
+};
+
 $(document).ready(function () {
-	DG.view.init();
+	DG.ui.init();
 	DG.digDungeon();
 });
