@@ -32,6 +32,8 @@
 							<li><a class="dropdown-item disabled" href="#" id="menu-delete-map" data-bs-toggle="modal" data-bs-target="#deleteMapModal"><label>Delete from storage</label></a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item disabled" href="#" id="menu-download-image" data-bs-toggle="modal" data-bs-target="#downloadMapModal"><label>Download ...</label></a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exportMapModal"><label>Export ...</label></a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#importMapModal"><label>Import ...</label></a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
@@ -454,6 +456,44 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="exportMapModal" tabindex="-1" aria-labelledby="exportMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exportMapModalLabel">Export dungeon data</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>The data of the current dungeon are dumped into the field below. Copy and paste it into an email or a file to
+						move it to another computer. Careful editing in this field is possible.</p>
+					<textarea class="form-control w-100" id="exportMapData" rows="10"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="importMapModal" tabindex="-1" aria-labelledby="importMapModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="importMapModalLabel">Import dungeon data</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Paste the dungeon data into the field below and click <b>Import</b> to load it.</p>
+					<textarea class="form-control w-100" id="importMapData" rows="10"></textarea>
+					<div class="alert alert-warning">Please paste the dungeon data!</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="import-btn-ok">Import</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="tab-content flex-fill d-block overflow-hidden">
 		<div class="tab-pane fade show active h-100" id="map-tab" role="tabpanel" aria-labelledby="map-tab-menu">
 			<div id="dungeon" class="h-100"></div>
@@ -474,13 +514,7 @@
 				<br><label for="settlements">Settlements Nearby</label><br>
 				<textarea id="settlements" cols='120' rows='6'></textarea>
 			</div>
-			<h3>Import and Export</h3>
-			<button id="export" style="margin-right: 20px">Export</button>
-			<button id="import">Import</button>
-			<p>Export dumps the data for the current dungeon into the field below. Copy and paste into an email or a file to
-				move to another computer. Paste into the field there and click Import to load it. Careful editing in this field
-				is possible. Save with a name on the destination computer.</p>
-			<textarea id="export-import" cols='120' rows='10'></textarea>
+
 			<p>To manually save and use the dungeon outside this page, copy the text of the room contents table and notes field
 				and paste into another file, and use the Download Image button on Chrome or the right click menu to save the image
 				as a PNG.</p>

@@ -1,15 +1,5 @@
 // UI elements
 
-var exportButton = document.getElementById("export");
-exportButton.addEventListener("click", function () {
-	DG.ui.exportDungeon();
-});
-
-var importButton = document.getElementById("import");
-importButton.addEventListener("click", function () {
-	DG.ui.importDungeon();
-});
-
 $('#notes').change(function () {
 	DG.data.notes = $(this).val();
 });
@@ -128,24 +118,6 @@ DG.ui = {
 		}
 		jq_note.val(noteText);
 	},
-
-	exportDungeon: function () {
-		var dungeonString = JSON.stringify(DG.data);
-		$("#export-import").val(dungeonString);
-	},  // export a file with the data structure
-
-	importDungeon: function () {
-		var dungeonData = $("#export-import").val();
-		DG.data = JSON.parse(dungeonData);
-		DG.view.setMapBackground(DG.data.imageSource);
-		DG.updateSettlementsData(DG.data.settlements);
-		DG.loadMapBackground();
-		DG.initNetwork();
-		DG.data.mapName = 'imported';
-		$('#saveMapModal #dungeonName').val(DG.data.mapName);
-		DG.ui.loadNotesFields();
-		DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
-	} //import a file previously exported
 }
 
 $(document).ready(function() {

@@ -1,11 +1,11 @@
 DG.view = {
-	solidColorList: ["gray", "black", "red", "green", "blue", "maroon", "brown", 'darkblue', 'gunmetal'],
-	bgColorList: ["white", "wheat", "salmon", "lightblue", "lightgreen", "lightgray", "gray", "black", "red", "green", "blue", "maroon", "brown", 'darkblue', 'gunmetal'],
-	shapeList: ["box", "ellipse", "circle", "database", "text", "diamond", "dot", "star", "triangle", "triangleDown", "square"],
-	widthList: ["0", "1", "2", "3", "4", "5", "6", "8", "10"],
-	radiusList: ["0", "1", "2", "3", "4", "5", "6", "8", "10"],
-	sizeList: ["3", "5", "8", "10", "15", "20", "25", "30"],
-	textSizeList: ["10", "12", "14", "16", "18", "20", "22", "24", "28", "32", "36", "40"],
+	solidColorList: ['gray', 'black', 'red', 'green', 'blue', 'maroon', 'brown', 'darkblue', 'gunmetal'],
+	bgColorList: ['white', 'wheat', 'salmon', 'lightblue', 'lightgreen', 'lightgray', 'gray', 'black', 'red', 'green', 'blue', 'maroon', 'brown', 'darkblue', 'gunmetal'],
+	shapeList: ['box', 'ellipse', 'circle', 'database', 'text', 'diamond', 'dot', 'star', 'triangle', 'triangleDown', 'square'],
+	widthList: ['0', '1', '2', '3', '4', '5', '6', '8', '10'],
+	radiusList: ['0', '1', '2', '3', '4', '5', '6', '8', '10'],
+	sizeList: ['3', '5', '8', '10', '15', '20', '25', '30'],
+	textSizeList: ['10', '12', '14', '16', '18', '20', '22', '24', '28', '32', '36', '40'],
 
 	selectControl: function (selectCtrl, options, currentVal) {
 		selectCtrl.empty();
@@ -49,6 +49,8 @@ DG.view = {
 		DG.view.initDeleteMapDialog();
 		DG.view.initLoadMapBgDialog();
 		DG.view.initMenu();
+		DG.view.initExportMapDialog();
+		DG.view.initImportMapDialog();
 	},
 
 	initEditEdgeDialog: function () {
@@ -305,7 +307,39 @@ DG.view = {
 
 	reskin: function () {
 		DG.replaceText($('#reskinModal #reskinTextFrom').val(), $('#reskinModal #reskinTextTo').val());
-	}
+	},
+
+	initExportMapDialog: function() {
+		let dialog = $('#exportMapModal');
+		dialog.on('show.bs.modal', evt => dialog.find('#exportMapData').val(JSON.stringify(DG.data)));
+	},
+
+	initImportMapDialog: function() {
+		let dialog = $('#importMapModal');
+		let dataField = dialog.find('#importMapData');
+		let alert = dialog.find('.alert');
+		dialog.on('show.bs.modal', evt => {
+			dataField.val('');
+			alert.hide();
+		});
+		dialog.find('#import-btn-ok').click(evt => {
+			let json = dataField.val();
+			if (json) {
+				DG.data = JSON.parse(json);
+				DG.view.setMapBackground(DG.data.imageSource);
+				DG.updateSettlementsData(DG.data.settlements);
+				DG.loadMapBackground();
+				DG.initNetwork();
+				DG.data.mapName = 'imported';
+				$('#saveMapModal #dungeonName').val(DG.data.mapName);
+				DG.ui.loadNotesFields();
+				DG.data.style = $.extend(DG.data.style, DG.data.defaultStyle);
+				dialog.modal('hide');
+			} else {
+				alert.show();
+			}
+		});
+	},
 };
 
 // Arguments to the Vis.Network creation call ----------------------------------------------
