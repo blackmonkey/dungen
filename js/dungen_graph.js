@@ -48,13 +48,13 @@ DG.defaultStyle = {
 // Room Contents table -------------------------------------------------
 DG.fillKey = function () {
 	//This function will render out the labels and descriptions from DG.data.nodes into table
+	$('#roomContents tbody').empty();
+
 	let tr;
 	let roomTbody = $('#roomContents tbody')[0];
 	DG.data.nodes.forEach(node => {
-		tr = $('<tr>').attr({
-			class: 'node-row',
-			id: node['id'],
-		}).appendTo(roomTbody);
+		tr = $('<tr>').attr('id', node['id']).appendTo(roomTbody);
+		tr.click(evt => DG.nodeDialog(DG.nodesDataSet.get($(evt.currentTarget).attr('id')), node => {}));
 		$('<td>').text(node['label']).appendTo(tr);
 		$('<td>').html(node['title']).appendTo(tr);
 	});
@@ -62,19 +62,14 @@ DG.fillKey = function () {
 	let fromNodeLabel, toNodeLabel;
 	let pathTbody = $('#roomContents tbody')[1];
 	DG.data.edges.forEach(edge => {
-		tr = $('<tr>').attr({
-			class: 'edge-row',
-			id: edge['id'],
-		}).appendTo(pathTbody);
+		tr = $('<tr>').attr('id', edge['id']).appendTo(pathTbody);
+		tr.click(evt => DG.edgeDialog(DG.edgesDataSet.get($(evt.currentTarget).attr('id')), edge => {}));
 		$('<td>').text(edge['label']).appendTo(tr);
 
 		fromNodeLabel = DG.findInArrayById(edge["from"], DG.data.nodes)["label"];
 		toNodeLabel = DG.findInArrayById(edge["to"], DG.data.nodes)["label"];
 		$('<td>').text(fromNodeLabel + ' => ' + toNodeLabel).appendTo(tr);
 	});
-
-	$('#roomContents .node-row').click(evt => DG.nodeDialog(DG.nodesDataSet.get($(evt.currentTarget).attr('id')), node => {}));
-	$('#roomContents .edge-row').click(evt => DG.edgeDialog(DG.edgesDataSet.get($(evt.currentTarget).attr('id')), edge => {}));
 };
 
 DG.findInArrayById = function (id, arrayToSearch) {
