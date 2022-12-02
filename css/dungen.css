@@ -18,10 +18,6 @@ p.hover {
 	background: #fffbe1;
 }
 
-.clear-both {
-	clear: both;
-}
-
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
 	.dropdown-menu li {

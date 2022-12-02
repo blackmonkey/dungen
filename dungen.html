@@ -20,17 +20,18 @@
 					<li class="nav-item active dropdown">
 						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Map</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#dungeon_key">Key</a></li>
-							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapBgModal">Load background ...</a></li>
+							<li><a class="dropdown-item" href="#"><input id="menu-clicks-add" type="checkbox" value="Clicks to add node"/><label for="menu-clicks-add">Clicks to add node</label></a></li>
+							<li><a class="dropdown-item" href="#dungeon_key"><label>Key</label></a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapBgModal"><label>Load background ...</label></a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');">Generate</a></li>
-							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('wilds');">Wilds</a></li>
+							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');"><label>Generate</label></a></li>
+							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('wilds');"><label>Wilds</label></a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#saveMapModal">Save to storage ...</a></li>
-							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapModal">Load from storage ...</a></li>
-							<li><a class="dropdown-item disabled" href="#" id="menu-delete-map" data-bs-toggle="modal" data-bs-target="#deleteMapModal">Delete from storage</a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#saveMapModal"><label>Save to storage ...</label></a></li>
+							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapModal"><label>Load from storage ...</label></a></li>
+							<li><a class="dropdown-item disabled" href="#" id="menu-delete-map" data-bs-toggle="modal" data-bs-target="#deleteMapModal"><label>Delete from storage</label></a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item disabled" href="#" id="menu-download-image" data-bs-toggle="modal" data-bs-target="#downloadMapModal">Download Dungeon ...</a></li>
+							<li><a class="dropdown-item disabled" href="#" id="menu-download-image" data-bs-toggle="modal" data-bs-target="#downloadMapModal"><label>Download ...</label></a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
@@ -394,7 +395,7 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="downloadMapModalLabel">Download Dungeon as image</h5>
+					<h5 class="modal-title" id="downloadMapModalLabel">Download dungeon as image</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -413,10 +414,7 @@
 	<div class="container my-3">
 	</div>
 
-	<button id="lock" data-status="unlocked">Clicks add</button>
-
 	<div id="dungeon" class="w-100 vh-100"></div>
-	<span class="clear-both"></span>
 	<div id="table-holder">
 		<table class="dungen table table-bordered" id="dungeon_key"></table>
 	</div>

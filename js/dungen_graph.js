@@ -352,12 +352,9 @@ DG.initNetwork = function () {
 
 	DG.fillKey();
 
-	DG.network.on("click", function (event) {
-		if (DG.ui.locked()) {
-			return false;
-		}
-		if (event.edges.length == 0 && event.nodes.length == 0) {
-			DG.drawOptions.manipulation.addNode(event.pointer.canvas, function () {/*EMPTY CALLBACK FOR NOW*/ });
+	DG.network.on('click', evt => {
+		if (!DG.drawOptions.interaction.dragNodes && evt.edges.length == 0 && evt.nodes.length == 0) {
+			DG.drawOptions.manipulation.addNode(evt.pointer.canvas, function () {/*EMPTY CALLBACK FOR NOW*/ });
 		}
 	});
 

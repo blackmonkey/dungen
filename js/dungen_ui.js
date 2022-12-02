@@ -10,19 +10,6 @@ importButton.addEventListener("click", function () {
 	DG.ui.importDungeon();
 });
 
-var lockButton = $("button#lock");
-lockButton.on("click", function () {
-	if (lockButton.data("status") === "locked") {
-		lockButton.data("status", "unlocked");
-		lockButton.text("Clicks add");
-		DG.network.interaction.dragNodes = true;
-	} else {
-		lockButton.data("status", "locked");
-		lockButton.text("Clicks locked");
-		DG.network.interaction.dragNodes = false;
-	}
-});
-
 var replaceButton = document.getElementById("replace");
 replaceButton.addEventListener("click", function () {
 	var textFrom = $('#text_from').val();
@@ -57,9 +44,6 @@ $("#notes").on("clearText", function () {
 });
 
 DG.ui = {
-	locked: function () {
-		return $("button#lock").data("status") === "locked";
-	},
 	mapBackgrounds: [
 		// commenting out maps that have disappeared from googleusercontent. keeping for restoration once I find the images again.
 		//['EA: River Cavern 1', 'https://lh3.googleusercontent.com/-hbgHpKa5fx4/Vph1EQDU3XI/AAAAAAAADKQ/XsaDJ2DTJc0/w530-h747-p-rw/16%2B-%2B1'],

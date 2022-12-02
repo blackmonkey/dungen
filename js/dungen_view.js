@@ -287,6 +287,11 @@ DG.view = {
 		if (window.navigator.userAgent.indexOf('Chrome') > 0) {
 			$('#menu-download-image').removeClass('disabled');
 		}
+
+		$('#menu-clicks-add').change(evt => {
+			DG.drawOptions.interaction.dragNodes = !evt.currentTarget.checked;
+			DG.network.interactionHandler.options.dragNodes = !evt.currentTarget.checked;
+		});
 	},
 
 	// save function works in Chrome
