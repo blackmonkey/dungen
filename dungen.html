@@ -146,7 +146,7 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="editEdgeModalLabel">Edit Path between Locations</h5>
+					<h5 class="modal-title" id="editEdgeModalLabel">Edit Path between Rooms</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -271,7 +271,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="nodeModalLabel">Edit Location</h5>
+					<h5 class="modal-title" id="nodeModalLabel">Edit Room</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -506,7 +506,16 @@
 			</div>
 
 			<h3 class="mt-5">Room Contents</h3>
-			<table class="table table-bordered table-striped table-hover" id="dungeon_key"></table>
+			<table class="table table-bordered table-striped table-hover" id="roomContents">
+				<thead class="table-primary">
+					<tr><th>Room</th><th>Description (click in a cell to edit)</th></tr>
+				</thead>
+				<tbody class="table-info"></tbody>
+				<thead class="table-primary">
+					<tr><th>Path</th><th>Description (click in a cell to edit)</th></tr>
+				</thead class="table-primary">
+				<tbody class="table-secondary"></tbody>
+			</table>
 
 			<h3 class="mt-5">Wandering Monsters</h3>
 			<textarea class="form-control w-100" id="wanderingMonsters" rows="10"></textarea>
@@ -533,8 +542,7 @@
 	<script type="text/javascript" src="js/dungen_link_strats.js"></script>
 	<script type="text/javascript" src="js/dungen_graph.js"></script>
 	<script type="text/javascript" src="js/dungen_stock.js"></script>
-	<script type="text/javascript" src="js/dungen_run.js"></script>
-	<script type="text/javascript" src="js/dungen_ui.js"></script>
 	<script type="text/javascript" src="js/dungen_names.js"></script>
+	<script type="text/javascript" src="js/dungen_ui.js"></script>
 </body>
 </html>

@@ -68,3 +68,8 @@ DG.ui = {
 		$('#organizations').val(DG.data.organizations.join('\n'));
 	},
 }
+
+$(document).ready(function () {
+	DG.view.init();
+	DG.digDungeon();
+});

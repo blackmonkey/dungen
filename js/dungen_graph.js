@@ -45,35 +45,36 @@ DG.defaultStyle = {
 	edges: { width: 1, color: { color: 'gray' } }
 };
 
-// Dungeon Key table -------------------------------------------------
+// Room Contents table -------------------------------------------------
 DG.fillKey = function () {
-	//This function will render out the labels and descriptions from
-	//DG.data.nodes into table#dungeon_key
-	var dungeonKey = "<thead>\n<tr><th>Location</th><th>Description (click in a cell to edit)</th></tr>\n</thead><tbody>"
-	var tln = "<tr class='node_row' id ='";
-	var tle = "<tr  class='edge_row'id ='";
-	var tlm = "'><td class='dungen'>";
-	var tm = "</td><td class='dungen dg_description'>";
-	var tr = "</td></tr>";
-	var node = {};
-	var nodesLength = DG.data.nodes.length;
-	var edge = {};
-	var edgesLength = DG.data.edges.length;
-	var fromNodeLabel, toNodeLabel;
-	for (i = 0; i < nodesLength; i++) {
-		node = DG.data.nodes[i];
-		dungeonKey = dungeonKey + (tln + node["id"] + tlm + node["label"] + tm + node["title"] + tr);
-	}
-	dungeonKey += "\n</tbody>";
-	dungeonKey += "\n<tbody>";
-	for (i = 0; i < edgesLength; i++) {
-		edge = DG.data.edges[i];
+	//This function will render out the labels and descriptions from DG.data.nodes into table
+	let tr;
+	let roomTbody = $('#roomContents tbody')[0];
+	DG.data.nodes.forEach(node => {
+		tr = $('<tr>').attr({
+			class: 'node-row',
+			id: node['id'],
+		}).appendTo(roomTbody);
+		$('<td>').text(node['label']).appendTo(tr);
+		$('<td>').html(node['title']).appendTo(tr);
+	});
+
+	let fromNodeLabel, toNodeLabel;
+	let pathTbody = $('#roomContents tbody')[1];
+	DG.data.edges.forEach(edge => {
+		tr = $('<tr>').attr({
+			class: 'edge-row',
+			id: edge['id'],
+		}).appendTo(pathTbody);
+		$('<td>').text(edge['label']).appendTo(tr);
+
 		fromNodeLabel = DG.findInArrayById(edge["from"], DG.data.nodes)["label"];
 		toNodeLabel = DG.findInArrayById(edge["to"], DG.data.nodes)["label"];
-		dungeonKey = dungeonKey + (tle + edge["id"] + tlm + edge["label"] + tm + fromNodeLabel + " to " + toNodeLabel + tr);
-	}
-	dungeonKey += "\n</tbody>";
-	document.getElementById("dungeon_key").innerHTML = dungeonKey;
+		$('<td>').text(fromNodeLabel + ' => ' + toNodeLabel).appendTo(tr);
+	});
+
+	$('#roomContents .node-row').click(evt => DG.nodeDialog(DG.nodesDataSet.get($(evt.currentTarget).attr('id')), node => {}));
+	$('#roomContents .edge-row').click(evt => DG.edgeDialog(DG.edgesDataSet.get($(evt.currentTarget).attr('id')), edge => {}));
 };
 
 DG.findInArrayById = function (id, arrayToSearch) {
