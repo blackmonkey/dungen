@@ -1,117 +1,100 @@
 // need a better, more generalized approach to class weapon lists
 
-DG.setupHyperborea = function () {
-	DG.source.characterClasses = DG.stock.hyperborea.characterClasses;
-	DG.source.races = DG.stock.hyperborea.races;
-	DG.source.fighterClasses = DG.stock.hyperborea.fighterClasses;
-	DG.source.mageClasses = DG.stock.hyperborea.mageClasses;
-	DG.source.druidClasses = ["druid"];
-	DG.source.monkClasses = ["monk"];
-	DG.source.unarmoredClasses = DG.stock.hyperborea.unarmoredClasses;
-	DG.source.lightArmoredClasses = DG.stock.hyperborea.lightArmoredClasses;
-	DG.source.mediumArmoredClasses = DG.stock.hyperborea.mediumArmoredClasses;
-	DG.source.heavyArmoredClasses = DG.stock.hyperborea.heavyArmoredClasses;
-	DG.source.monkWeapons = ["Fists", "Spear", "Daggers", "Sword", "Staff", "Jittes", "Tonfa", "Dagger"];
-	DG.source.servantWeapons = ["Knife", "Dagger", "Fists", "Fists", "Handaxe", "Staff", "Cudgel", "Club"];
-	DG.source.mageWeapons = ["Daggers", "Staff", "Staff & Dagger"];
-	DG.source.druidWeapons = ["Knife", "Dagger", "Spear", "Sickle", "Shortsword", "Handaxe", "Staff", "Cudgel", "Club", "Bow"];
-}
-DG.setupClassic = function () {
-	DG.source.characterClasses = DG.stock.characterClasses;
-	DG.source.races = DG.stock.humanWeightedPcRaces;
-	DG.source.fighterClasses = DG.stock.fighterClasses;
-	DG.source.mageClasses = DG.stock.mageClasses;
-	DG.source.druidClasses = ["druid"];
-	DG.source.monkClasses = ["monk"];
-	DG.source.unarmoredClasses = DG.stock.unarmoredClasses;
-	DG.source.lightArmoredClasses = DG.stock.lightArmoredClasses;
-	DG.source.mediumArmoredClasses = DG.stock.mediumArmoredClasses;
-	DG.source.heavyArmoredClasses = DG.stock.heavyArmoredClasses;
-	DG.source.monkWeapons = ["Fists", "Spear", "Daggers", "Sword", "Staff", "Jittes", "Tonfa", "Dagger"];
-	DG.source.servantWeapons = ["Knife", "Dagger", "Fists", "Fists", "Handaxe", "Staff", "Cudgel", "Club"];
-	DG.source.mageWeapons = ["Daggers", "Staff", "Staff & Dagger"];
-	DG.source.druidWeapons = ["Knife", "Dagger", "Spear", "Sickle", "Shortsword", "Handaxe", "Staff", "Cudgel", "Club", "Bow"];
-}
-DG.data.settlements = [];
-DG.data.organizations = [];
-DG.source = {};
-
-DG.setSource = function (checked) {
-	DG.hyperborea = checked;
-	if (DG.hyperborea) {
-		DG.setupHyperborea();
-	} else {
-		DG.setupClassic();
-	}
-};
-DG.setSource($('#hyperborea').is(':checked'));
-
-DG.source.mercenaryArmors = DG.stock.mercenaryArmors;
-DG.source.allArmors = DG.stock.allArmors;
-DG.source.lightArmors = DG.stock.lightArmors;
-DG.source.mediumArmors = DG.stock.mediumArmors;
-DG.source.servantArmors = DG.stock.servantArmors;
-DG.source.weaponSet = DG.stock.weaponSet;
-DG.source.servantSkills = [
-	"Porter",
-	"Torchbearer",
-	"Porter",
-	"Torchbearer",
-	"Porter",
-	"Torchbearer",
-	"Charcoal burner",
-	"Farmer",
-	"Farmhand",
-	"Sailor",
-	"Ne'er do well",
-	"Lout",
-	"Lackey",
-	"Cook",
-	"Trapper",
-	"Scholar",
-	"Muleteer",
-	"Crafter",
-	"Barber Surgeon",
-	"Dogsbody",
-	"Domestic"
-];
-
-DG.source.mercenarySkills = [
-	"Mercenary",
-	"Soldier",
-	"Guard",
-	"Mercenary",
-	"Soldier",
-	"Guard",
-	"Bandit",
-	"Brigand",
-	"Thug",
-	"Huntsman",
-	"Hunter",
-	"Warrior",
-	"Graverobber",
-	"Berserk",
-	"Armsman",
-	"Guide",
-	"Pirate"
-];
-
-HR = {
-	rollStats: function () {
-		var staLine;
-		HR.stats.str = DG.roll3d6();
-		HR.stats.int = DG.roll3d6();
-		HR.stats.wis = DG.roll3d6();
-		HR.stats.con = DG.roll3d6();
-		HR.stats.dex = DG.roll3d6();
-		HR.stats.cha = DG.roll3d6();
-		HR.stats.class = "";
-		HR.stats.level = 1;
-		HR.stats.hp = 0;
-		statLine = "STR " + HR.stats.str + "  INT " + HR.stats.int + "  WIS " + HR.stats.wis +
-			"  CON " + HR.stats.con + "  DEX " + HR.stats.dex + "  CHA " + HR.stats.cha
-		return statLine;
-	},
+DG.hire = {
+	mercenaryArmors: DG.stock.mercenaryArmors,
+	allArmors: DG.stock.allArmors,
+	lightArmors: DG.stock.lightArmors,
+	mediumArmors: DG.stock.mediumArmors,
+	servantArmors: DG.stock.servantArmors,
+	weaponSet: DG.stock.weaponSet,
+	servantSkills: [
+		'Porter',
+		'Torchbearer',
+		'Porter',
+		'Torchbearer',
+		'Porter',
+		'Torchbearer',
+		'Charcoal burner',
+		'Farmer',
+		'Farmhand',
+		'Sailor',
+		"Ne'er do well",
+		'Lout',
+		'Lackey',
+		'Cook',
+		'Trapper',
+		'Scholar',
+		'Muleteer',
+		'Crafter',
+		'Barber Surgeon',
+		'Dogsbody',
+		'Domestic'
+	],
+	mercenarySkills: [
+		'Mercenary',
+		'Soldier',
+		'Guard',
+		'Mercenary',
+		'Soldier',
+		'Guard',
+		'Bandit',
+		'Brigand',
+		'Thug',
+		'Huntsman',
+		'Hunter',
+		'Warrior',
+		'Graverobber',
+		'Berserk',
+		'Armsman',
+		'Guide',
+		'Pirate'
+	],
+	reasons: [
+		'Needs the money to eat',
+		'Nearly broke',
+		'Bloodthirsty',
+		'Tired of living',
+		'Thrill seeker',
+		'Runaway',
+		'Pursued',
+		'Accursed',
+		'Drunken courage',
+		'On a dare',
+		'Lonely',
+		'Needs to get out of town',
+		'In debt',
+		'Curiosity',
+		'Family issues',
+		'Heartbroken',
+		'Romantic complications',
+		'Looking for a lucky break',
+		'Heard the PC band has a racket going',
+		'Wants to learn the path to the dungeon',
+		'Agent on a mission',
+		'Flat broke',
+		'Drinking buddy of PC',
+		'Friend of PC',
+		'Attracted to a PC',
+		'Finds something admirable about a PC',
+		'Wants revenge on a PC',
+		'Enjoys violence',
+		'Doppelganger',
+		'To spy on the party for someone powerful',
+		'Cultist with a mission',
+		'Proselytizer',
+		'Wants vengeance on something in the dungeon',
+		'Wants to take something particular from the dungeon',
+		'Dreams of glory',
+		'A god demands it',
+		'The voices whisper about it',
+		'Wants to steal something particular from a PC',
+		'Wants to rob the party',
+		'Needs a meaning in life',
+		'Wants to become an adventurer',
+		'Vampire bitten, starting to hunger and wants to find a place in the dungeon out of the light',
+		'Lycanthrope bitten and feels the change coming on',
+		'A personal quest',
+	],
 	stats: {
 		str: 0,
 		int: 0,
@@ -122,123 +105,132 @@ HR = {
 		hp: 0,
 		ac: 0
 	},
-	addToList: function (guy) {
-		var oldVal;
-		oldVal = $("#list").val();
-		$("#list").val(oldVal + guy);
+
+	init: function() {
+		DG.hire.setSource();
+		$('#hire-hyperborea').change(evt => DG.hire.setSource());
 	},
-	add10guys: function () {
-		var list;
-		var guy;
-		for (gc = 1; gc <= 10; gc++) {
-			guy = HR.oneGuy();
-			HR.addToList(guy);
+
+	setupHyperborea: function() {
+		DG.hire.characterClasses = DG.stock.hyperborea.characterClasses;
+		DG.hire.races = DG.stock.hyperborea.races;
+		DG.hire.fighterClasses = DG.stock.hyperborea.fighterClasses;
+		DG.hire.mageClasses = DG.stock.hyperborea.mageClasses;
+		DG.hire.druidClasses = ['druid'];
+		DG.hire.monkClasses = ['monk'];
+		DG.hire.unarmoredClasses = DG.stock.hyperborea.unarmoredClasses;
+		DG.hire.lightArmoredClasses = DG.stock.hyperborea.lightArmoredClasses;
+		DG.hire.mediumArmoredClasses = DG.stock.hyperborea.mediumArmoredClasses;
+		DG.hire.heavyArmoredClasses = DG.stock.hyperborea.heavyArmoredClasses;
+		DG.hire.monkWeapons = ['Fists', 'Spear', 'Daggers', 'Sword', 'Staff', 'Jittes', 'Tonfa', 'Dagger'];
+		DG.hire.servantWeapons = ['Knife', 'Dagger', 'Fists', 'Fists', 'Handaxe', 'Staff', 'Cudgel', 'Club'];
+		DG.hire.mageWeapons = ['Daggers', 'Staff', 'Staff & Dagger'];
+		DG.hire.druidWeapons = ['Knife', 'Dagger', 'Spear', 'Sickle', 'Shortsword', 'Handaxe', 'Staff', 'Cudgel', 'Club', 'Bow'];
+	},
+
+	setupClassic: function() {
+		DG.hire.characterClasses = DG.stock.characterClasses;
+		DG.hire.races = DG.stock.humanWeightedPcRaces;
+		DG.hire.fighterClasses = DG.stock.fighterClasses;
+		DG.hire.mageClasses = DG.stock.mageClasses;
+		DG.hire.druidClasses = ['druid'];
+		DG.hire.monkClasses = ['monk'];
+		DG.hire.unarmoredClasses = DG.stock.unarmoredClasses;
+		DG.hire.lightArmoredClasses = DG.stock.lightArmoredClasses;
+		DG.hire.mediumArmoredClasses = DG.stock.mediumArmoredClasses;
+		DG.hire.heavyArmoredClasses = DG.stock.heavyArmoredClasses;
+		DG.hire.monkWeapons = ['Fists', 'Spear', 'Daggers', 'Sword', 'Staff', 'Jittes', 'Tonfa', 'Dagger'];
+		DG.hire.servantWeapons = ['Knife', 'Dagger', 'Fists', 'Fists', 'Handaxe', 'Staff', 'Cudgel', 'Club'];
+		DG.hire.mageWeapons = ['Daggers', 'Staff', 'Staff & Dagger'];
+		DG.hire.druidWeapons = ['Knife', 'Dagger', 'Spear', 'Sickle', 'Shortsword', 'Handaxe', 'Staff', 'Cudgel', 'Club', 'Bow'];
+	},
+
+	setSource: function() {
+		if ($('#hire-hyperborea:checked').length > 0) {
+			DG.hire.setupHyperborea();
+		} else {
+			DG.hire.setupClassic();
 		}
 	},
-	generate1d6guys: function () {
-		var list;
-		list = "";
-		var maxcnt = DG.roll1d6();
-		for (gc = 1; gc <= maxcnt; gc++) {
-			guy = HR.oneGuy();
-			HR.addToList(guy);
+
+	rollStats: function() {
+		DG.hire.stats.str = DG.roll3d6();
+		DG.hire.stats.int = DG.roll3d6();
+		DG.hire.stats.wis = DG.roll3d6();
+		DG.hire.stats.con = DG.roll3d6();
+		DG.hire.stats.dex = DG.roll3d6();
+		DG.hire.stats.cha = DG.roll3d6();
+		DG.hire.stats.class = '';
+		DG.hire.stats.level = 1;
+		DG.hire.stats.hp = 0;
+		return 'STR ' + DG.hire.stats.str + '  INT ' + DG.hire.stats.int + '  WIS ' + DG.hire.stats.wis +
+		'  CON ' + DG.hire.stats.con + '  DEX ' + DG.hire.stats.dex + '  CHA ' + DG.hire.stats.cha;
+	},
+
+	addGuy: function(guy) {
+		let field = $('#hire-result');
+		let oldVal = $('#hire-result').val();
+		field.val(oldVal + guy);
+	},
+
+	addGuys: function(count) {
+		for (let i = 0; i < count; i++) {
+			DG.hire.addGuy(DG.hire.oneGuy());
 		}
 	},
-	del: function del() {
-		return "\n"
+
+	add1d6Guys: function() {
+		DG.hire.addGuys(DG.roll1d6());
 	},
-	skills: function skills(type) {
-		if (type === "servant") {
-			return DG.drawOne(DG.source.servantSkills);
+
+	skills: function(type) {
+		if (type === 'servant') {
+			return DG.drawOne(DG.hire.servantSkills);
 		}
-		if (type === "mercenary") {
-			return DG.drawOne(DG.source.mercenarySkills);
+		if (type === 'mercenary') {
+			return DG.drawOne(DG.hire.mercenarySkills);
 		}
 		// levelled
-		HR.stats.level = DG.roll3d4low();
-		HR.stats.class = DG.drawOne(DG.source.characterClasses);
-		return DG.capFirstChar(HR.stats.class) + " " + HR.stats.level;
+		DG.hire.stats.level = DG.roll3d4low();
+		DG.hire.stats.class = DG.drawOne(DG.hire.characterClasses);
+		return DG.capFirstChar(DG.hire.stats.class) + ' ' + DG.hire.stats.level;
 	},
-	personality: function () {
-		return DG.rollThree() ? DG.drawOne(DG.stock.allAttitudes) + " " : "";
+
+	personality: function() {
+		return DG.rollThree() ? DG.drawOne(DG.stock.allAttitudes) + ' ' : '';
 	},
-	reason: function () {
-		if (DG.rollFour()) {
-			return ""
-		}
-		return "" + HR.del() + "Reason to hire on: " + DG.drawOne([
-			"Needs the money to eat",
-			"Nearly broke",
-			"Bloodthirsty",
-			"Tired of living",
-			"Thrill seeker",
-			"Runaway",
-			"Pursued",
-			"Accursed",
-			"Drunken courage",
-			"On a dare",
-			"Lonely",
-			"Needs to get out of town",
-			"In debt",
-			"Curiosity",
-			"Family issues",
-			"Heartbroken",
-			"Romantic complications",
-			"Looking for a lucky break",
-			"Heard the PC band has a racket going",
-			"Wants to learn the path to the dungeon",
-			"Agent on a mission",
-			"Flat broke",
-			"Drinking buddy of PC",
-			"Friend of PC",
-			"Attracted to a PC",
-			"Finds something admirable about a PC",
-			"Wants revenge on a PC",
-			"Enjoys violence",
-			"Doppelganger",
-			"To spy on the party for someone powerful",
-			"Cultist with a mission",
-			"Proselytizer",
-			"Wants vengeance on something in the dungeon",
-			"Wants to take something particular from the dungeon",
-			"Dreams of glory",
-			"A god demands it",
-			"The voices whisper about it",
-			"Wants to steal something particular from a PC",
-			"Wants to rob the party",
-			"Needs a meaning in life",
-			"Wants to become an adventurer",
-			"Vampire bitten, starting to hunger and wants to find a place in the dungeon out of the light",
-			"Lycanthrope bitten and feels the change coming on",
-			"A personal quest"
-		]);
+
+	reason: function() {
+		return DG.rollFour() ? '' : '\nReason to hire on: ' + DG.drawOne(DG.hire.reasons);
 	},
-	race: function () {
-		return DG.capFirstChar(DG.drawOne(DG.source.races));
+
+	race: function() {
+		return DG.capFirstChar(DG.drawOne(DG.hire.races));
 	},
-	armor: function (type) {
-		var armorType = "";
-		if (type === "servant") {
-			armorType = DG.drawOne(DG.source.servantArmors);
-		} else if (type === "mercenary") {
-			armorType = DG.drawOne(DG.source.mercenaryArmors);
-		} else if (DG.includes(DG.source.unarmoredClasses, HR.stats.class)) {
-			armorType = DG.drawOne(DG.source.servantArmors);
-		} else if (DG.includes(DG.source.lightArmoredClasses, HR.stats.class)) {
-			armorType = DG.drawOne(DG.source.lightArmors);
-		} else if (DG.includes(DG.source.mediumArmoredClasses, HR.stats.class)) {
-			armorType = DG.drawOne(DG.source.mediumArmors);
-		} else if (DG.includes(DG.source.heavyArmoredClasses, HR.stats.class)) {
-			armorType = DG.drawOne(DG.source.allArmors);
+
+	armor: function(type) {
+		let armorType = '';
+		if (type === 'servant') {
+			armorType = DG.drawOne(DG.hire.servantArmors);
+		} else if (type === 'mercenary') {
+			armorType = DG.drawOne(DG.hire.mercenaryArmors);
+		} else if (DG.includes(DG.hire.unarmoredClasses, DG.hire.stats.class)) {
+			armorType = DG.drawOne(DG.hire.servantArmors);
+		} else if (DG.includes(DG.hire.lightArmoredClasses, DG.hire.stats.class)) {
+			armorType = DG.drawOne(DG.hire.lightArmors);
+		} else if (DG.includes(DG.hire.mediumArmoredClasses, DG.hire.stats.class)) {
+			armorType = DG.drawOne(DG.hire.mediumArmors);
+		} else if (DG.includes(DG.hire.heavyArmoredClasses, DG.hire.stats.class)) {
+			armorType = DG.drawOne(DG.hire.allArmors);
 		} else { // missed a class?
-			armorType = DG.drawOne(DG.source.mercenaryArmors);
+			armorType = DG.drawOne(DG.hire.mercenaryArmors);
 		}
 		return DG.capFirstChar(armorType);
 	},
-	conBonus: function () {
-		var con = HR.stats.con;
-		var b
-		switch (con) {
+
+	conBonus: function() {
+		let b
+		switch (DG.hire.stats.con) {
 			case 3:
 			case 4:
 			case 5:
@@ -267,68 +259,59 @@ HR = {
 			case 18:
 				b = +3;
 				break;
-			default: console.log("Found no bonus for constitution of " + b);
+			default: console.log('Found no bonus for constitution of ' + b);
 		}
 		return b
 	},
-	rollHp: function (type) {
-		if (type === "servant") {
-			HR.stats.hp = DG.roll1d6();
-		} else if (type === "mercenary") {
-			HR.stats.hp = DG.roll1d6() + 1;
+
+	rollHp: function(type) {
+		if (type === 'servant') {
+			DG.hire.stats.hp = DG.roll1d6();
+		} else if (type === 'mercenary') {
+			DG.hire.stats.hp = DG.roll1d6() + 1;
 		} else {
-			for (var die = 1; die <= HR.stats.level; die++) {
-				if (DG.includes(DG.source.fighterClasses, HR.stats.class)) {
-					HR.stats.hp += DG.rollDie(1, 8);
+			for (let i = 0; i < DG.hire.stats.level; i++) {
+				if (DG.includes(DG.hire.fighterClasses, DG.hire.stats.class)) {
+					DG.hire.stats.hp += DG.rollDie(1, 8);
 				} else {
-					HR.stats.hp += DG.roll1d6();
+					DG.hire.stats.hp += DG.roll1d6();
 				}
 			}
 		}
-		HR.stats.hp += HR.stats.level * HR.conBonus();
-		if (HR.stats.hp < HR.stats.level) {
-			HR.stats.hp = HR.stats.level;
+		DG.hire.stats.hp += DG.hire.stats.level * DG.hire.conBonus();
+		if (DG.hire.stats.hp < DG.hire.stats.level) {
+			DG.hire.stats.hp = DG.hire.stats.level;
 		}
-		return HR.stats.hp;
-	},
-	weapons: function (type) {
-		if (type === "servant") {
-			return DG.drawOne(DG.source.servantWeapons);
-		}
-		if (DG.includes(DG.source.mageClasses, HR.stats.class)) {
-			return DG.drawOne(DG.source.mageWeapons);
-		}
-		if (DG.includes(DG.source.druidClasses, HR.stats.class)) {
-			return DG.drawOne(DG.source.druidWeapons);
-		}
-		if (DG.includes(DG.source.monkClasses, HR.stats.class)) {
-			return DG.drawOne(DG.source.monkWeapons);
-		}
-		return DG.source.weaponSet();
+		return DG.hire.stats.hp;
 	},
 
-	oneGuy: function () {
-		var guy = "";
-		var stats = HR.rollStats() + HR.del();
+	weapons: function(type) {
+		if (type === 'servant') {
+			return DG.drawOne(DG.hire.servantWeapons);
+		}
+		if (DG.includes(DG.hire.mageClasses, DG.hire.stats.class)) {
+			return DG.drawOne(DG.hire.mageWeapons);
+		}
+		if (DG.includes(DG.hire.druidClasses, DG.hire.stats.class)) {
+			return DG.drawOne(DG.hire.druidWeapons);
+		}
+		if (DG.includes(DG.hire.monkClasses, DG.hire.stats.class)) {
+			return DG.drawOne(DG.hire.monkWeapons);
+		}
+		return DG.hire.weaponSet();
+	},
 
-		var name = DG.wiki(DG.characterName()) + ", ";
-		var type = DG.drawOne(["servant", "servant", "servant", "mercenary", "mercenary", "mercenary", "mercenary", "leveled"]);
-		var reason = HR.reason();
-		var personality = HR.personality();
-		var skills = HR.skills(type) + HR.del();
-		var race = HR.race() + " ";
-		var weapons = HR.weapons(type) + ", ";
-		var hp = HR.rollHp();
-		var derived = "HP: " + hp + HR.del();
-		var armor = HR.armor(type);
-
-		guy = name + personality + race + skills + stats + derived + weapons + armor + reason + HR.del() + HR.del();
-		return guy;
-	}
-}
-
-$(document).ready(function () {
-	$("#generate1d6").on("click", function () { HR.generate1d6guys(); });
-	$("#add10").on("click", function () { HR.add10guys(); });
-	$("#hyperborea").on("click", function () { DG.setSource($("#hyperborea").is(':checked')) })
-});
+	oneGuy: function() {
+		let type = DG.drawOne(['servant', 'servant', 'servant', 'mercenary', 'mercenary', 'mercenary', 'mercenary', 'leveled']);
+		let name = DG.wiki(DG.characterName()) + ', ';
+		let personality = DG.hire.personality();
+		let race = DG.hire.race() + ' ';
+		let skills = DG.hire.skills(type) + '\n';
+		let stats = DG.hire.rollStats() + '\n';
+		let derived = 'HP: ' + DG.hire.rollHp() + '\n';
+		let weapons = DG.hire.weapons(type) + ', ';
+		let armor = DG.hire.armor(type);
+		let reason = DG.hire.reason();
+		return name + personality + race + skills + stats + derived + weapons + armor + reason + '\n\n';
+	},
+};
