@@ -51,6 +51,7 @@ DG.view = {
 		DG.view.initMenu();
 		DG.view.initExportMapDialog();
 		DG.view.initImportMapDialog();
+		DG.view.initFields();
 	},
 
 	initEditEdgeDialog: function () {
@@ -340,6 +341,14 @@ DG.view = {
 			}
 		});
 	},
+
+	initFields: function() {
+		$('#notes').change(evt => DG.data.notes = $(evt.currentTarget).val());
+		$('#settlements').change(evt => DG.data.settlements = DG.splitToArray($(evt.currentTarget).val()));
+		$('#wanderingMonsters').change(evt => DG.data.wanderingMonsters = DG.splitToArray($(evt.currentTarget).val()));
+		$('#organizations').change(evt => DG.data.organizations = DG.splitToArray($(evt.currentTarget).val()));
+		$('#monsterRelations').change(evt => DG.data.monsterRelations = DG.splitToArray($(evt.currentTarget).val()));
+	}
 };
 
 // Arguments to the Vis.Network creation call ----------------------------------------------

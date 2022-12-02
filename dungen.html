@@ -125,7 +125,7 @@
 						rooms to place room numbers and drag to reposition. Contents for rooms will randomly generate as you place them. The
 						node editor will let you edit or reroll contents. </p>
 					<p>If you like hacking, take a look at the dungen_stock.js file first. It's pretty easy to customize content there. DunGen is now up on
-						<a href='https://github.com/edallen/dungen'>Github</a>.</p>
+						<a href="https://github.com/edallen/dungen">Github</a>.</p>
 
 					<h5>New features and plans</h5>
 					<p>Split out the notes field to separate fields, as a step towards better UI layout and data update.</p>
@@ -499,25 +499,29 @@
 			<div id="dungeon" class="h-100"></div>
 		</div>
 		<div class="tab-pane fade h-100 p-3 overflow-auto" id="info-tab" role="tabpanel" aria-labelledby="info-tab-menu">
-			<div id="table-holder">
-				<table class="dungen table table-bordered" id="dungeon_key"></table>
-			</div>
-			<div id="footer_notes" style="clear: both">
-				<br><label for="wandering_monsters">Wandering Monsters</label><br>
-				<textarea id="wandering_monsters" cols='120' rows='10'></textarea>
-				<br><label for="notes">Notes</label><br>
-				<textarea id="notes" cols='120' rows='6'></textarea>
-				<br><label for="monster_relations">Relationships between Monster Groups</label><br>
-				<textarea id="monster_relations" cols='120' rows='6'></textarea>
-				<br><label for="organizations">Organizations Involved</label><br>
-				<textarea id="organizations" cols='120' rows='6'></textarea>
-				<br><label for="settlements">Settlements Nearby</label><br>
-				<textarea id="settlements" cols='120' rows='6'></textarea>
+			<div class="alert alert-info" role="alert">
+				To manually save and use the dungeon outside this page, copy the text of the <b>Room Contents</b> table and <b>Notes</b> field
+				and paste into another file, and use the <b>Download ...</b> menu on Chrome or the right click menu to save the dungeon image
+				as a PNG.
 			</div>
 
-			<p>To manually save and use the dungeon outside this page, copy the text of the room contents table and notes field
-				and paste into another file, and use the Download Image button on Chrome or the right click menu to save the image
-				as a PNG.</p>
+			<h3 class="mt-5">Room Contents</h3>
+			<table class="table table-bordered table-striped table-hover" id="dungeon_key"></table>
+
+			<h3 class="mt-5">Wandering Monsters</h3>
+			<textarea class="form-control w-100" id="wanderingMonsters" rows="10"></textarea>
+
+			<h3 class="mt-5">Notes</h3>
+			<textarea class="form-control w-100" id="notes" rows="6"></textarea>
+
+			<h3 class="mt-5">Relationships between Monster Groups</h3>
+			<textarea class="form-control w-100" id="monsterRelations" rows="6"></textarea>
+
+			<h3 class="mt-5">Organizations Involved</h3>
+			<textarea class="form-control w-100" id="organizations" rows="6"></textarea>
+
+			<h3 class="mt-5">Settlements Nearby</h3>
+			<textarea class="form-control w-100" id="settlements" rows="6"></textarea>
 		</div>
 	</div>
 

@@ -1,16 +1,7 @@
-td.dungen {
-	font-size: 75%;
-}
-
 #dungeon {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
-}
-
-table#dungeon_key {
-	clear: both;
-	width: 90%;
 }
 
 /* ============ desktop view ============ */

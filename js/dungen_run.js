@@ -1,6 +1,7 @@
 //breaking out usage at page initialization to this file
 
 $(document).ready(function () {
+	DG.view.init();
 	postLoadInitialize();
 });
 

@@ -31,11 +31,8 @@ var DG = {
 	dungeonLevel: 0,
 	monsterTreasureMultiplier: 1,
 
-	// clearNotes: function () {
-	//   $("#notes").trigger("clearText");
-	// },
-
 	container: document.getElementById('dungeon'),
+
 	// Text utility functions
 	brToLf: function (text) {
 		return text.replace(new RegExp('<br\/>', 'g'), '\n').replace(new RegExp('<br>', 'g'), '\n').replace(new RegExp('<br \/>', 'g'), '\n');
@@ -47,7 +44,7 @@ var DG = {
 		return $.inArray(element, array) > -1;
 	},
 	splitToArray: function (list) {
-		return list.split("\n").filter(function (e) { return e.replace(/(\r\n|\n|\r)/gm, "") });
+		return list.trim().split(/[\r\n]+/gm);
 	},
 
 	// Randomization Utilities -----------------------------------------------------------------
@@ -164,7 +161,7 @@ var DG = {
 		if (DG.monsterHold !== undefined) {
 			if (DG.rollFour()) {
 				var newNote = DG.newRelationship(DG.monsterHold);
-				DG.data.monster_relations.push(newNote);
+				DG.data.monsterRelations.push(newNote);
 				DG.ui.loadNotesFields();
 			}
 		}
@@ -883,7 +880,7 @@ var DG = {
 	},
 
 	populateNotes: function () {
-		return DG.theDungeonName() + "\n\n" + DG.adventureHook() + "\n\n"
+		return DG.theDungeonName() + '\n\n' + DG.adventureHook() + '\n\n';
 	},
 	nameTheDungeon: function () {
 		var dungeonName = DG.wiki(DG.drawOne(DG.names.dungeonNames));
@@ -1031,8 +1028,8 @@ DG.replaceText = function (textFrom, textTo) {
 	}
 	DG.data.notes = replaceAll(textFrom, textTo, DG.data.notes);
 	DG.data.organizations = arrayReplaceAll(textFrom, textTo, DG.data.organizations);
-	DG.data.wandering_monsters = arrayReplaceAll(textFrom, textTo, DG.data.wandering_monsters);
-	DG.data.monster_relations = arrayReplaceAll(textFrom, textTo, DG.data.monster_relations);
+	DG.data.wanderingMonsters = arrayReplaceAll(textFrom, textTo, DG.data.wanderingMonsters);
+	DG.data.monsterRelations = arrayReplaceAll(textFrom, textTo, DG.data.monsterRelations);
 	DG.data.settlements = arrayReplaceAll(textFrom, textTo, DG.data.settlements);
 	DG.ui.loadNotesFields();
 	DG.fillKey();

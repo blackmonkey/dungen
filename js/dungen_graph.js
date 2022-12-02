@@ -3,8 +3,8 @@ DG.data = {
 	historicalNames: false,
 	settlements: [],
 	organizations: [],
-	monster_relations: [],
-	wandering_monsters: [],
+	monsterRelations: [],
+	wanderingMonsters: [],
 	notes: '',
 	nodes: [],
 	edges: [],
@@ -91,7 +91,7 @@ DG.digDungeon = function (locationType) {
 	DG.data.edges = [];
 	DG.data.organizations = [];
 	DG.data.settlements = [];
-	DG.data.monster_relations = [];
+	DG.data.monsterRelations = [];
 	DG.data.monsters = {};
 	DG.monsterHold = undefined;
 	DG.data.locationType = locationType;

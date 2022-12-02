@@ -1,30 +1,5 @@
 // UI elements
 
-$('#notes').change(function () {
-	DG.data.notes = $(this).val();
-});
-
-$('#settlements').change(function () {
-	DG.data.settlements = DG.splitToArray($(this).val());
-});
-
-$('#wandering_monsters').change(function () {
-	DG.data.wandering_monsters = $(this).val().split("\n");
-});
-
-$('#organizations').change(function () {
-	DG.data.organizations = $(this).val().split("\n");
-});
-
-$('#monster_relations').change(function () {
-	DG.data.monster_relations = $(this).val().split("\n");
-});
-
-$("#notes").on("clearText", function () {
-	$(this).val('');
-	DG.data.notes = $(this).val();
-});
-
 DG.ui = {
 	mapBackgrounds: [
 		// commenting out maps that have disappeared from googleusercontent. keeping for restoration once I find the images again.
@@ -75,51 +50,21 @@ DG.ui = {
 		['BL: Herstmonceux ground', 'http://2.bp.blogspot.com/--sJX2iznte8/Uv8rGi4wDII/AAAAAAAABAA/9iN89fYfMmU/s1600/herstmonceux_ground_floor_plan_BL.png']
 	],
 
-	populateMonsterRelations: function () {
-		$("#monster_relations").val(DG.monsterRelationsNote());
-		DG.data.monster_relations = $("#monster_relations").val().split("\n");
-	},
-	populateWanderingMonsters: function () {
-		$("#wandering_monsters").val(DG.wanderingMonstersNote());
-		DG.data.wandering_monsters = $("#wandering_monsters").val().split("\n");
-	},
-	populateOrganizations: function () {
-		$("#organizations").val(DG.organizationsNote());
-		DG.data.organizations = $("#organizations").val().split("\n");
-	},
-	populateSettlements: function () {
-		// should store into DG.data.settlements
-		$("#settlements").val(DG.settlementsNote());
-		DG.data.settlements = DG.splitToArray($("#settlements").val());
-	},
 	displaySettlements: function () {
-		DG.ui.loadDataNote(DG.data.settlements, $("#settlements"));
+		$('#settlements').val(DG.data.settlements.join('\n'));
 	},
 	populateNotesFields: function () {
-		$("#notes").val(DG.data.notes);
-		DG.ui.populateSettlements();
-		DG.ui.populateMonsterRelations();
-		DG.ui.populateWanderingMonsters();
-		DG.ui.populateOrganizations();
+		$('#notes').val(DG.data.notes);
+		$('#settlements').val(DG.settlementsNote()).change();
+		$('#monsterRelations').val(DG.monsterRelationsNote()).change();
+		$('#wanderingMonsters').val(DG.wanderingMonstersNote()).change();
+		$('#organizations').val(DG.organizationsNote()).change();
 	},
 	loadNotesFields: function () {
-		$("#notes").val(DG.data.notes);
-		DG.ui.loadDataNote(DG.data.monster_relations, $("#monster_relations"));
-		DG.ui.loadDataNote(DG.data.wandering_monsters, $("#wandering_monsters"));
-		DG.ui.loadDataNote(DG.data.organizations, $("#organizations"));
-		DG.ui.loadDataNote(DG.data.settlements, $("#settlements"));
-	},
-	loadDataNote: function (data, jq_note) {
-		var len = data.length;
-		var noteText = "";
-		for (var s = 0; s < len; s++) {
-			var dataLine = data[s];
-			noteText += dataLine + '\n';
-		}
-		jq_note.val(noteText);
+		$('#notes').val(DG.data.notes);
+		$('#settlements').val(DG.data.settlements.join('\n'));
+		$('#monsterRelations').val(DG.data.monsterRelations.join('\n'));
+		$('#wanderingMonsters').val(DG.data.wanderingMonsters.join('\n'));
+		$('#organizations').val(DG.data.organizations.join('\n'));
 	},
 }
-
-$(document).ready(function() {
-	DG.view.init();
-});

@@ -1448,12 +1448,8 @@ DG.historicalFirstName = function (cap) {
 };
 
 DG.settlementName = function (cap) {
-	var settlement;
-	var settlmentName;
 	if (DG.rollThree() && DG.data.settlements.length > 0) {
-		settlement = DG.drawOne(DG.data.settlements);
-		settlementName = settlement.split(",")[0];
-		return settlementName;
+		return DG.drawOne(DG.data.settlements).split(',')[0];
 	}
 	return DG.newSettlementName();
 };
