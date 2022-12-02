@@ -8,8 +8,8 @@
 	<link href="vis/vis.css" rel="stylesheet" type="text/css">
 	<link href="css/dungen.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+<body class="vw-100 vh-100 overflow-hidden d-flex flex-column">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">DunGen</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,6 @@
 						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Map</a>
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="#"><input id="menu-clicks-add" type="checkbox" value="Clicks to add node"/><label for="menu-clicks-add">Clicks to add node</label></a></li>
-							<li><a class="dropdown-item" href="#dungeon_key"><label>Key</label></a></li>
 							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loadMapBgModal"><label>Load background ...</label></a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#" onclick="DG.digDungeon('dungeon');"><label>Generate</label></a></li>
@@ -75,6 +74,13 @@
 							<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#styleModal">Style</a></li>
 						</ul>
 					</li>
+					<li class="nav-item active dropdown">
+						<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">View</a>
+						<ul class="dropdown-menu" role="tablist">
+							<li role="presentation"><a class="dropdown-item active" href="#" id="map-tab-menu" data-bs-toggle="tab" data-bs-target="#map-tab" role="tab" aria-controls="map-tab" aria-selected="true">Map</a></li>
+							<li role="presentation"><a class="dropdown-item" href="#" id="info-tab-menu" data-bs-toggle="tab" data-bs-target="#info-tab" role="tab" aria-controls="info-tab">Information</a></li>
+						</ul>
+					</li>
 					<li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
 				</ul>
 			</div>
@@ -102,7 +108,7 @@
 	</div>
 
 	<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="aboutModalLabel">About DunGen</h5>
@@ -115,6 +121,16 @@
 					<p>Choose the Level. Enter your map's URL and click Load Map or pick one from the menu. When you see the map, click in
 						rooms to place room numbers and drag to reposition. Contents for rooms will randomly generate as you place them. The
 						node editor will let you edit or reroll contents. </p>
+					<p>If you like hacking, take a look at the dungen_stock.js file first. It's pretty easy to customize content there. DunGen is now up on
+						<a href='https://github.com/edallen/dungen'>Github</a>.</p>
+
+					<h5>New features and plans</h5>
+					<p>Split out the notes field to separate fields, as a step towards better UI layout and data update.</p>
+					<p>I will be rescanning some of the maps I linked in the menu to make them a better fit here.</p>
+
+					<h5>Image Link Credits</h5>
+					<p>EA: <a href="http://geekruminations.blogspot.com" target="_blank">Ed Allen</a></p>
+					<p>BL: <a href="https://www.flickr.com/photos/britishlibrary/" target="_blank">British Library Flickr</a> of free images from old books</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
@@ -156,7 +172,7 @@
 	</div>
 
 	<div class="modal fade" id="selectThemeModal" tabindex="-1" aria-labelledby="selectThemeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="selectThemeModalLabel">Select Theme</h5>
@@ -323,6 +339,9 @@
 						<span class="input-group-text" for="dungeonName">Dungeon Name</span>
 						<input type="text" class="form-control" id="dungeonName">
 					</div>
+					<p>DunGen doesn't save to a server but to your browser's "LocalStorage".</p>
+					<p>If you need to clear all cached data in your browser, please export a backup file first, and import it when you need it again.</p>
+					<p class="text-danger">Clearing all LocalStorage will wipe out any saved and edited dungeons.</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save-map-btn-ok">Save</button>
@@ -411,57 +430,43 @@
 		</div>
 	</div>
 
-	<div class="container my-3">
+	<div class="tab-content flex-fill d-block overflow-hidden">
+		<div class="tab-pane fade show active h-100" id="map-tab" role="tabpanel" aria-labelledby="map-tab-menu">
+			<div id="dungeon" class="h-100"></div>
+		</div>
+		<div class="tab-pane fade h-100 p-3 overflow-auto" id="info-tab" role="tabpanel" aria-labelledby="info-tab-menu">
+			<div id="table-holder">
+				<table class="dungen table table-bordered" id="dungeon_key"></table>
+			</div>
+			<div id="footer_notes" style="clear: both">
+				<br><label for="wandering_monsters">Wandering Monsters</label><br>
+				<textarea id="wandering_monsters" cols='120' rows='10'></textarea>
+				<br><label for="notes">Notes</label><br>
+				<textarea id="notes" cols='120' rows='6'></textarea>
+				<br><label for="monster_relations">Relationships between Monster Groups</label><br>
+				<textarea id="monster_relations" cols='120' rows='6'></textarea>
+				<br><label for="organizations">Organizations Involved</label><br>
+				<textarea id="organizations" cols='120' rows='6'></textarea>
+				<br><label for="settlements">Settlements Nearby</label><br>
+				<textarea id="settlements" cols='120' rows='6'></textarea>
+			</div>
+			<h3>Re-skin creatures and treasures</h3>
+			<p>Re-skin creatures or replace other repeating text in room descriptions and notes - there is no Undo so be
+				careful.</p>
+			Replace <input id="text_from" /> with <input id="text_to" /> in Notes and all Location Descriptions.
+			<button id="replace">Re-skin</button>
+			<h3>Import and Export</h3>
+			<button id="export" style="margin-right: 20px">Export</button>
+			<button id="import">Import</button>
+			<p>Export dumps the data for the current dungeon into the field below. Copy and paste into an email or a file to
+				move to another computer. Paste into the field there and click Import to load it. Careful editing in this field
+				is possible. Save with a name on the destination computer.</p>
+			<textarea id="export-import" cols='120' rows='10'></textarea>
+			<p>To manually save and use the dungeon outside this page, copy the text of the room contents table and notes field
+				and paste into another file, and use the Download Image button on Chrome or the right click menu to save the image
+				as a PNG.</p>
+		</div>
 	</div>
-
-	<div id="dungeon" class="w-100 vh-100"></div>
-	<div id="table-holder">
-		<table class="dungen table table-bordered" id="dungeon_key"></table>
-	</div>
-	<div id="footer_notes" style="clear: both">
-		<br><label for="wandering_monsters">Wandering Monsters</label><br>
-		<textarea id="wandering_monsters" cols='120' rows='10'></textarea>
-		<br><label for="notes">Notes</label><br>
-		<textarea id="notes" cols='120' rows='6'></textarea>
-		<br><label for="monster_relations">Relationships between Monster Groups</label><br>
-		<textarea id="monster_relations" cols='120' rows='6'></textarea>
-		<br><label for="organizations">Organizations Involved</label><br>
-		<textarea id="organizations" cols='120' rows='6'></textarea>
-		<br><label for="settlements">Settlements Nearby</label><br>
-		<textarea id="settlements" cols='120' rows='6'></textarea>
-	</div>
-	<h3>Re-skin creatures and treasures</h3>
-	<p>Re-skin creatures or replace other repeating text in room descriptions and notes - there is no Undo so be
-		careful.</p>
-	Replace <input id="text_from" /> with <input id="text_to" /> in Notes and all Location Descriptions.
-	<button id="replace">Re-skin</button>
-	<h3>Import and Export</h3>
-	<button id="export" style="margin-right: 20px">Export</button>
-	<button id="import">Import</button>
-	<p>Export dumps the data for the current dungeon into the field below. Copy and paste into an email or a file to
-		move to another computer. Paste into the field there and click Import to load it. Careful editing in this field
-		is possible. Save with a name on the destination computer.</p>
-	<textarea id="export-import" cols='120' rows='10'></textarea>
-	<p>To manually save and use the dungeon outside this page, copy the text of the room contents table and notes field
-		and paste into another file, and use the Download Image button on Chrome or the right click menu to save the image
-		as a PNG.</p>
-	<p>DunGen saves to your browser's "LocalStorage" not to a server. If you need to clear all cached data in your
-		browser, please export a backup file first, and import it when you need it again.
-		<b>Clearing all LocalStorage will wipe out any saved and edited dungeons.</b>
-	</p>
-	<p>Comments welcome at the Ruminations blog linked above or on Twitter. If you like hacking, take a look at the
-		dungen_stock.js file first. It's pretty easy to customize content there. DunGen is now up on
-		<a href='https://github.com/edallen/dungen'>Github</a>.</p>
-	<br>
-	<h3>New features and plans</h3>
-	<p>Split out the notes field to separate fields, as a step towards better UI layout and data update.</p>
-	<p>I will be rescanning some of the maps I linked in the menu to make them a better fit here.</p>
-
-	<h3>Image Link Credits</h3>
-	<p>EA: <a href="http://geekruminations.blogspot.com" target="_blank">Ed Allen</a><br>
-		BL: <a href="https://www.flickr.com/photos/britishlibrary/" target="_blank">British Library Flickr</a> of free
-		images from old books
-	</p>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
