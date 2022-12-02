@@ -139,7 +139,7 @@ DG.nicknamePatterns = [
 	"the {{theNameWord,c}}",
 	"{{nickname,c}}"
 ];
-DG.familyRelation = function () {
+DG.familyRelation = function() {
 	return DG.wiki(DG.drawOne(DG.stock.relatives));
 };
 DG.nicknames = [
@@ -1284,47 +1284,47 @@ DG.names = {
 	]
 };
 
-DG.dwarfPrefix = function () {
+DG.dwarfPrefix = function() {
 	var string = DG.drawOne(DG.names.dwarfPrefixes); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.dwarfSuffix = function () {
+DG.dwarfSuffix = function() {
 	var string = DG.drawOne(DG.names.dwarfSuffixes); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.angloSaxonMaleName = function () {
+DG.angloSaxonMaleName = function() {
 	var string = DG.drawOne(DG.names.angloSaxonMaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.angloSaxonFemaleName = function () {
+DG.angloSaxonFemaleName = function() {
 	var string = DG.drawOne(DG.names.angloSaxonFemaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.norseMaleName = function () {
+DG.norseMaleName = function() {
 	var string = DG.drawOne(DG.names.norseMaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.norseFemaleName = function () {
+DG.norseFemaleName = function() {
 	var string = DG.drawOne(DG.names.norseFemaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.frankishMaleName = function () {
+DG.frankishMaleName = function() {
 	var string = DG.drawOne(DG.names.frankishMaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.frankishFemaleName = function () {
+DG.frankishFemaleName = function() {
 	var string = DG.drawOne(DG.names.frankishFemaleNames); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.firstName = function (cap) {
+DG.firstName = function(cap) {
 	var string = "";
 	if (typeof DG.data.historicalNames != "undefined" && DG.data.historicalNames) {
 		string = DG.wiki(DG.drawOne(DG.names.historicalFirstNames));
@@ -1334,17 +1334,17 @@ DG.firstName = function (cap) {
 	return DG.toCase(string, cap);
 };
 
-DG.placePrefix = function (cap) {
+DG.placePrefix = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.placePrefixes)); // needs to build a good string, placeholder
 	return DG.toCase(string, cap);
 };
 
-DG.placeSuffix = function () {
+DG.placeSuffix = function() {
 	var string = DG.drawOne(DG.names.placeSuffixes); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.affiliationName = function () {
+DG.affiliationName = function() {
 	if (DG.rollTwo() && DG.data.organizations.length > 0) {
 		return DG.drawOne(DG.data.organizations);
 	}
@@ -1354,107 +1354,107 @@ DG.affiliationName = function () {
 	return DG.newAffiliationName();
 };
 
-DG.newAffiliationName = function () {
+DG.newAffiliationName = function() {
 	var string = DG.toCase(DG.wiki(DG.drawOne(DG.affiliationNames)), 'c'); // needs to build a good string, placeholder
 	DG.updateOrganizationsNote(string);
 	return string;
 };
 
-DG.updateOrganizationsNote = function (organization) {
+DG.updateOrganizationsNote = function(organization) {
 	DG.data.organizations.push(organization);
 };
 
-DG.organization = function () {
+DG.organization = function() {
 	var string = DG.wiki(DG.drawOne(DG.organizations)); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.organizationTopic = function () {
+DG.organizationTopic = function() {
 	var string = DG.wiki(DG.drawOne(DG.organizationTopics)); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.theNameWord = function (cap) {
+DG.theNameWord = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.theNameWords));
 	return DG.toCase(string, cap);
 };
 
-DG.lastName = function (cap) {
+DG.lastName = function(cap) {
 	var string = DG.drawOne(DG.names.begin) + DG.drawOne(DG.names.end); // needs to build a good string, placeholder
 	return DG.toCase(string, cap);
 };
 
-DG.nickname = function (cap) {
+DG.nickname = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.nicknames));
 	return DG.toCase(string, cap);
 };
 
-DG.nicknamePattern = function () {
+DG.nicknamePattern = function() {
 	var string = DG.wiki(DG.drawOne(DG.nicknamePatterns));
 	return string;
 };
 
-DG.dungeonPlace = function (cap) {
+DG.dungeonPlace = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.dungeonPlaces));
 	return DG.toCase(string, cap);
 };
 
-DG.darkColor = function (cap) {
+DG.darkColor = function(cap) {
 	var string = DG.drawOne(DG.names.darkColors);
 	return DG.toCase(string, cap);
 };
 
-DG.color = function () {
+DG.color = function() {
 	var string = DG.wiki(DG.drawOne(DG.colors));
 	return string;
 };
 
-DG.iconicNoun = function (cap) {
+DG.iconicNoun = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.iconicNouns));
 	return DG.toCase(string, cap);
 };
 
-DG.thematicNoun = function (cap) {
+DG.thematicNoun = function(cap) {
 	var string = DG.drawOne(DG.names.thematicNouns);
 	return DG.toCase(string, cap);
 };
 
-DG.darkEmotion = function (cap) {
+DG.darkEmotion = function(cap) {
 	var string = DG.drawOne(DG.names.darkEmotions);
 	return DG.toCase(string, cap);
 };
 
-DG.scaryAdjective = function (cap) {
+DG.scaryAdjective = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.scaryAdjectives));
 	return DG.toCase(string, cap);
 };
 
-DG.travelTime = function () {
+DG.travelTime = function() {
 	return DG.wiki(DG.drawOne(DG.names.travelTimes));
 };
 
-DG.bossType = function (cap) {
+DG.bossType = function(cap) {
 	var string = DG.drawOne(DG.names.bossTypes);
 	return DG.toCase(string, cap);
 };
 
-DG.oldCharName = function (cap) {
+DG.oldCharName = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.begin) + DG.drawOne(DG.names.end)); // needs to build a good string, placeholder
 	return DG.toCase(string, cap);
 };
-DG.historicalFirstName = function (cap) {
+DG.historicalFirstName = function(cap) {
 	var string = DG.wiki(DG.drawOne(DG.names.historicalFirstNames)); // needs to build a good string, placeholder
 	return DG.toCase(string, cap);
 };
 
-DG.settlementName = function (cap) {
+DG.settlementName = function(cap) {
 	if (DG.rollThree() && DG.data.settlements.length > 0) {
 		return DG.drawOne(DG.data.settlements).split(',')[0];
 	}
 	return DG.newSettlementName();
 };
 
-DG.newSettlementName = function () {
+DG.newSettlementName = function() {
 	var name = DG.toCase(DG.wiki(DG.drawOne(DG.names.settlementNames)), 'c'); // needs to build a good string, placeholder
 	var localityDescription = DG.localityDescription();
 	var note = DG.settlementArrayToNote([name, localityDescription]);
@@ -1468,13 +1468,13 @@ DG.newSettlementName = function () {
 	return name;
 };
 
-DG.settlementArrayToNote = function (settlementArray) {
+DG.settlementArrayToNote = function(settlementArray) {
 	var description = "population: " + settlementArray[1].population + ", " + settlementArray[1].prosperity + ', ' + settlementArray[1].direction;
 	var note = settlementArray[0] + ", " + description + '.';
 	return note;
 };
 
-DG.localityDescription = function () {
+DG.localityDescription = function() {
 	;
 	var direction = DG.wiki("{{travelTime}} {{travelMode}} to the {{compassDirection}}")
 	var prosperity = DG.wiki("{{prosperity}}")
@@ -1483,15 +1483,15 @@ DG.localityDescription = function () {
 	return { 'population': population, 'prosperity': prosperity, 'direction': direction }
 };
 
-DG.travelMode = function () {
+DG.travelMode = function() {
 	return DG.wiki(DG.drawOne(DG.names.travelModes));
 }
-DG.compassDirection = function () {
+DG.compassDirection = function() {
 	var string = DG.drawOne(DG.names.compassDirections); // needs to build a good string, placeholder
 	return string;
 };
 
-DG.settlementSize = function () {
+DG.settlementSize = function() {
 	var string = DG.drawOne(DG.settlementSizes); // needs to build a good string, placeholder
 	return string;
 };
@@ -1508,12 +1508,12 @@ DG.settlementSizes = [
 	"large",
 	"vast"
 ];
-DG.population = function () {
+DG.population = function() {
 	var population = DG.rollPareto(0.7, 40);
 	return population;
 };
 
-DG.prosperity = function () {
+DG.prosperity = function() {
 	var string = DG.drawOne(DG.prosperities); // needs to build a good string, placeholder
 	return string;
 };
@@ -1564,17 +1564,17 @@ DG.prosperities = [
 	"strapped"
 ];
 
-DG.placeName = function (cap) {
+DG.placeName = function(cap) {
 	var string = DG.oldCharName(cap); // needs to build a good string, placeholder
 	return DG.toCase(string, cap);
 };
 
-DG.characterName = function () {
+DG.characterName = function() {
 	var string = DG.wiki(DG.drawOne(DG.characterNames));  // needs to build a good string, placeholder
 	return string;
 };
 
-DG.capFirstChar = function (txt) {
+DG.capFirstChar = function(txt) {
 	return txt.charAt(0).toUpperCase() + txt.substr(1);
 };
 
@@ -1587,7 +1587,7 @@ DG.toCase = function toCase(str, cap) {
 	}
 	if (cap === "c") {
 		//http://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
-		return str.replace(/\w\S*/g, function (txt) {
+		return str.replace(/\w\S*/g, function(txt) {
 			if (txt === 'of') {
 				return txt;
 			} else if (txt === 'the') {

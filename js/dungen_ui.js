@@ -57,11 +57,11 @@ DG.ui = {
 	sizeList: ['3', '5', '8', '10', '15', '20', '25', '30'],
 	textSizeList: ['10', '12', '14', '16', '18', '20', '22', '24', '28', '32', '36', '40'],
 
-	displaySettlements: function () {
+	displaySettlements: function() {
 		$('#settlements').val(DG.data.settlements.join('\n'));
 	},
 
-	populateNotesFields: function () {
+	populateNotesFields: function() {
 		$('#notes').val(DG.data.notes);
 		$('#settlements').val(DG.settlementsNote()).change();
 		$('#monsterRelations').val(DG.monsterRelationsNote()).change();
@@ -69,7 +69,7 @@ DG.ui = {
 		$('#organizations').val(DG.organizationsNote()).change();
 	},
 
-	loadNotesFields: function () {
+	loadNotesFields: function() {
 		$('#notes').val(DG.data.notes);
 		$('#settlements').val(DG.data.settlements.join('\n'));
 		$('#monsterRelations').val(DG.data.monsterRelations.join('\n'));
@@ -77,7 +77,7 @@ DG.ui = {
 		$('#organizations').val(DG.data.organizations.join('\n'));
 	},
 
-	selectControl: function (selectCtrl, options, currentVal) {
+	selectControl: function(selectCtrl, options, currentVal) {
 		selectCtrl.empty();
 		options.forEach(opt => {
 			if (opt instanceof Array) {
@@ -89,7 +89,7 @@ DG.ui = {
 		selectCtrl.val(currentVal).change();
 	},
 
-	checkBoxSet: function (panel, allTags, tagData) {
+	checkBoxSet: function(panel, allTags, tagData) {
 		panel.empty();
 		for (let i = 0; i < allTags.length; i++) {
 			let tagId = panel.attr('id') + '-' + allTags[i];
@@ -109,7 +109,7 @@ DG.ui = {
 		}
 	},
 
-	init: function () {
+	init: function() {
 		DG.ui.initEditEdgeDialog();
 		DG.ui.initSelectThemeDialog();
 		DG.ui.initStyleDialog();
@@ -124,12 +124,12 @@ DG.ui = {
 		DG.ui.initFields();
 	},
 
-	initEditEdgeDialog: function () {
+	initEditEdgeDialog: function() {
 		let dialog = $('#editEdgeModal');
 		DG.ui.selectControl(dialog.find('#edgeColor'), DG.ui.solidColorList, DG.ui.solidColorList[0]);
 	},
 
-	initSelectThemeDialog: function () {
+	initSelectThemeDialog: function() {
 		let dialog = $('#selectThemeModal');
 		DG.ui.checkBoxSet(dialog.find('#monsterTags'), DG.stock.monsterTags, DG.data.monsterTags);
 		DG.ui.checkBoxSet(dialog.find('#nodeTags'), DG.stock.nodeTags, DG.data.nodeTags);
@@ -368,7 +368,7 @@ DG.ui = {
 	},
 
 	// save function works in Chrome
-	chromeSaveImage: function () {
+	chromeSaveImage: function() {
 		let canvas = $('canvas')[0];
 		$('<a>').attr({
 			download: $('#downloadMapModal #mapImageName').val(),
@@ -376,7 +376,7 @@ DG.ui = {
 		})[0].click();
 	},
 
-	reskin: function () {
+	reskin: function() {
 		DG.replaceText($('#reskinModal #reskinTextFrom').val(), $('#reskinModal #reskinTextTo').val());
 	},
 
@@ -422,7 +422,7 @@ DG.ui = {
 }
 
 // Arguments to the Vis.Network creation call ----------------------------------------------
-DG.nodeDialog = function (node, callback) {
+DG.nodeDialog = function(node, callback) {
 	node = DG.nodesDataSet.get(node.id);
 
 	let dialog = $('#nodeModal');
@@ -458,7 +458,7 @@ DG.nodeDialog = function (node, callback) {
 	dialog.modal('show');
 };
 
-DG.edgeDialog = function (edge, callback) {
+DG.edgeDialog = function(edge, callback) {
 	let fromNodeId = edge.from;
 	let toNodeId = edge.to;
 
@@ -490,7 +490,8 @@ DG.edgeDialog = function (edge, callback) {
 	dialog.modal('show');
 };
 
-$(document).ready(function () {
+$(document).ready(function() {
 	DG.ui.init();
 	DG.digDungeon();
+	DG.hire.init();
 });

@@ -2,7 +2,7 @@
 //
 // utility added to Array, bad to change primitive prototypes but Array is
 // hard to subclass
-Array.prototype.remove = function () {
+Array.prototype.remove = function() {
 	var what, L = arguments.length, ax;
 	while (L && this.length) {
 		what = arguments[--L];
@@ -34,55 +34,55 @@ var DG = {
 	container: document.getElementById('dungeon'),
 
 	// Text utility functions
-	brToLf: function (text) {
+	brToLf: function(text) {
 		return text.replace(new RegExp('<br\/>', 'g'), '\n').replace(new RegExp('<br>', 'g'), '\n').replace(new RegExp('<br \/>', 'g'), '\n');
 	},
-	lfToBr: function (text) {
+	lfToBr: function(text) {
 		return text.replace(new RegExp('\r?\n', 'g'), '<br>');
 	},
-	includes: function (array, element) {
+	includes: function(array, element) {
 		return $.inArray(element, array) > -1;
 	},
-	splitToArray: function (list) {
+	splitToArray: function(list) {
 		return list.trim().split(/[\r\n]+/gm);
 	},
 
 	// Randomization Utilities -----------------------------------------------------------------
-	rollDie: function (start, size) {
+	rollDie: function(start, size) {
 		return Math.floor(Math.random() * (size)) + start;
 	},
-	roll1d6: function () {
+	roll1d6: function() {
 		return DG.rollDie(1, 6);
 	},
-	roll2d6: function () {
+	roll2d6: function() {
 		return DG.rollDie(1, 6) + DG.rollDie(1, 6);
 	},
-	roll3d6: function () {
+	roll3d6: function() {
 		return DG.rollDie(1, 6) + DG.rollDie(1, 6) + DG.rollDie(1, 6);
 	},
-	roll3d4low: function () {
+	roll3d4low: function() {
 		return Math.min(DG.rollDie(1, 4), DG.rollDie(1, 4), DG.rollDie(1, 4));
 	},
-	rollOne: function () {
+	rollOne: function() {
 		return Math.random() < 0.16667;
 	},
-	rollTwo: function () {
+	rollTwo: function() {
 		return Math.random() < 0.3334;
 	},
-	rollThree: function () {
+	rollThree: function() {
 		return Math.random() <= 0.5;
 	},
-	rollFour: function () {
+	rollFour: function() {
 		return Math.random() < 0.66667;
 	},
-	rollFive: function () {
+	rollFive: function() {
 		return Math.random() < 0.83334;
 	},
-	rollPareto: function (alpha, xmin) {
+	rollPareto: function(alpha, xmin) {
 		var u = Math.random();
 		return Math.round(xmin / Math.pow(u, 1 / alpha));
 	},
-	rollOther: function (start, size, excludedRoll) {
+	rollOther: function(start, size, excludedRoll) {
 		var roll = excludedRoll;
 		while (roll == excludedRoll) {
 			roll = DG.rollDie(start, size);
@@ -92,13 +92,13 @@ var DG = {
 	drawOne: function drawOne(list) {
 		return list[DG.rollDie(0, list.length)];
 	},
-	shufflePopOne: function (list) {
+	shufflePopOne: function(list) {
 		var item = "";
 		list = DG.shuffle(list);
 		item = list.pop();
 		return [item, list];
 	},
-	wiki: function (string) {
+	wiki: function(string) {
 		var reInsert = /{{(.*?)}}/;
 		var match;
 		var matchValue;
@@ -122,7 +122,7 @@ var DG = {
 
 		return string;
 	},
-	arrayToSet: function (a) {
+	arrayToSet: function(a) {
 		var hash = {};
 		for (var i = 0; i < a.length; i++)
 			hash[a[i]] = true;
@@ -131,7 +131,7 @@ var DG = {
 			r.push(k);
 		return r;
 	},
-	shuffle: function (array) {
+	shuffle: function(array) {
 		// Mike Bostock's Fisher Yates shuffle implementation
 		var m = array.length, t, i;
 		// While there remain elements to shuffle
@@ -146,7 +146,7 @@ var DG = {
 		return array;
 	},
 
-	addMonstersToList: function () {
+	addMonstersToList: function() {
 		if (DG.monsterHold !== undefined) {
 			if (DG.data.monsters[DG.monsterHold["name"]] !== undefined) {
 				DG.data.monsters[DG.monsterHold["name"]]["count"] = DG.monsterHold.count
@@ -156,7 +156,7 @@ var DG = {
 			DG.monsterHold = undefined;
 		}
 	},
-	addMonsterRelationship: function () {
+	addMonsterRelationship: function() {
 		// used by map to add relationships as node are added.
 		if (DG.monsterHold !== undefined) {
 			if (DG.rollFour()) {
@@ -167,11 +167,11 @@ var DG = {
 		}
 	},
 
-	setRandomRoomCount: function () {
+	setRandomRoomCount: function() {
 		DG.roomCount = DG.rollDie(DG.minRooms, (DG.maxRooms - DG.minRooms));
 		return DG.roomCount;
 	},
-	setBaseMonsters: function () {
+	setBaseMonsters: function() {
 		var monsterSourceList;
 		if (DG.data.dungeonLevel === "wilds") {
 			// Not going to deal with multiple levels of base monsters
@@ -207,7 +207,7 @@ var DG = {
 		}
 	},
 
-	filterListByTags: function (fullList, filterTags) {
+	filterListByTags: function(fullList, filterTags) {
 		var filteredList = [];
 		for (var i = 0; i < fullList.length; i++) {
 			if (DG.tagMatch(fullList[i].tags, filterTags)) {
@@ -218,7 +218,7 @@ var DG = {
 	},
 
 	// Node Content Randomization section ---------------------------------------------
-	makeContents: function (dungeonLevel) {
+	makeContents: function(dungeonLevel) {
 		var contents = "";
 		var treasureRoll = 1;
 		DG.monsterTreasureMultiplier = 1;
@@ -267,7 +267,7 @@ var DG = {
 		}
 		return contents;
 	},
-	randomOddity: function (dungeonLevel) {
+	randomOddity: function(dungeonLevel) {
 		// ignoring dungeonLevel for now
 		if (DG.data.detailsTable === undefined) {
 			return DG.drawOne(DG.stock.details).description + "<br>";
@@ -277,14 +277,14 @@ var DG = {
 		}
 		return DG.drawOne(DG.stock.details).description + "<br>";
 	},
-	randomHook: function () {
+	randomHook: function() {
 		var hook = "Hook: " + DG.drawOne(DG.stock.hookItems) + "<br>";
 		return hook;
 	},
-	randomNpcClass: function () {
+	randomNpcClass: function() {
 		return DG.drawOne(DG.stock.characterClasses);
 	},
-	drawNpcClassHand: function () {
+	drawNpcClassHand: function() {
 		if (DG.source === undefined) {
 			DG.source = {}
 		};
@@ -294,23 +294,23 @@ var DG = {
 			DG.source.NpcClasses.push(DG.drawOne(DG.stock.characterClasses));
 		}
 	},
-	randomNpcClassFromHand: function () {
+	randomNpcClassFromHand: function() {
 		return DG.drawOne(DG.source.NpcClasses);
 	},
-	randomRelationship: function (intel, targetInt, plurality) {
+	randomRelationship: function(intel, targetInt, plurality) {
 		// simple at first
 		// Then introduce int
-		var possibleRelationships = DG.stock.relationships.filter(function (rel) {
+		var possibleRelationships = DG.stock.relationships.filter(function(rel) {
 			return rel.min_subject_int <= intel
 		});
 
-		possibleRelationships = possibleRelationships.filter(function (rel) {
+		possibleRelationships = possibleRelationships.filter(function(rel) {
 			return rel.min_target_int <= targetInt
 		});
 		var relationship = DG.drawOne(possibleRelationships);
 		return relationship[plurality];
 	},
-	randomMonsters: function (dungeonLevel, wrap) {
+	randomMonsters: function(dungeonLevel, wrap) {
 		var undeadPrefix;
 		var monsterLevel;
 		var singletonAttitude = "";
@@ -472,16 +472,16 @@ var DG = {
 		DG.updateMonsterTreasureMultiplier(monsterLevel, monsterCount, monsterType);
 		return monsters;
 	},
-	randomAttitude: function (monsterType) {
+	randomAttitude: function(monsterType) {
 		if (monsterType.int < 7) {
 			return DG.drawOne(DG.stock.basicAttitudes);
 		}
 		return DG.drawOne(DG.stock.allAttitudes);
 	},
-	randomAvgIntAttitude: function () {
+	randomAvgIntAttitude: function() {
 		return DG.randomAttitude(10)
 	},
-	randomPosture: function (monsterType) {
+	randomPosture: function(monsterType) {
 		if (monsterType.name === "adventurer") {
 			return DG.drawOne(DG.stock.adventurerPostures);
 		}
@@ -493,11 +493,11 @@ var DG = {
 		}
 		return DG.drawOne(DG.stock.creaturePostures);
 	},
-	shouldDetailNpcs: function (monsterType) {
+	shouldDetailNpcs: function(monsterType) {
 		return DG.tagMatch(monsterType.tags, ["adventurer", "overlord", "npc"]);
 	},
 
-	getNpcLevel: function (monsterLevel) {
+	getNpcLevel: function(monsterLevel) {
 		if (monsterLevel === 0) {
 			if (DG.rollTwo()) {
 				return "2"
@@ -569,7 +569,7 @@ var DG = {
 		}
 	},
 
-	detailNpcs: function (monsterLevel, monsterCount, monsterType, wrap) {
+	detailNpcs: function(monsterLevel, monsterCount, monsterType, wrap) {
 		DG.drawNpcClassHand()
 		var npcBlock = "";
 		for (var n = 0; n < monsterCount; n++) {
@@ -615,7 +615,7 @@ var DG = {
 
 		return npcBlock;
 	},
-	tagMatch: function (itemTags, themeTags) {
+	tagMatch: function(itemTags, themeTags) {
 		for (var i = 0; i < itemTags.length; i++) {
 			if (themeTags.indexOf(itemTags[i]) !== -1) {
 				return true;
@@ -623,7 +623,7 @@ var DG = {
 		}
 		return false;
 	},
-	selectMonster: function (monsterLevel) {
+	selectMonster: function(monsterLevel) {
 		var monsterSourceList;
 		if (DG.data.locationType == "wilds") {
 			monsterSourceList = DG.wild.monsters;
@@ -655,7 +655,7 @@ var DG = {
 		}
 		return monsterType;
 	},
-	updateMonsterTreasureMultiplier: function (monsterLevel, monsterCount, monsterType) {
+	updateMonsterTreasureMultiplier: function(monsterLevel, monsterCount, monsterType) {
 		var newMonsterTreasureMultiplier;
 		if (monsterType.int < 6) {
 			// not smart enough to amass treasure
@@ -668,10 +668,10 @@ var DG = {
 		DG.monsterTreasureMultiplier = Math.max(DG.monsterTreasureMultiplier, newMonsterTreasureMultiplier);
 	},
 
-	valueFraction: function (treasureValue) {
+	valueFraction: function(treasureValue) {
 		return DG.rollDie(1, 9) * 0.1 * treasureValue
 	},
-	oneTreasure: function (treasureValue) {
+	oneTreasure: function(treasureValue) {
 		var treasureCount = 1;
 		var treasureType = DG.drawOne(DG.stock.treasure);
 
@@ -684,7 +684,7 @@ var DG = {
 		}
 		return treasureCount + " " + treasureType["label"];
 	},
-	randomTreasure: function (treasureLevel) {
+	randomTreasure: function(treasureLevel) {
 		var hoard = "Ts: ";
 		var treasureType = {};
 		var treasureCount = 1;
@@ -727,20 +727,20 @@ var DG = {
 
 		return hoard;
 	},
-	randomMagicItem: function (treasureLevel) { // will need much more detail later and more items in big hoards
+	randomMagicItem: function(treasureLevel) { // will need much more detail later and more items in big hoards
 		DG.treasureLevel = treasureLevel;
 		var item = DG.wiki(DG.drawOne(DG.stock.magicItems));
 
 		return item;
 	},
-	potion: function (treasureLevel) {
+	potion: function(treasureLevel) {
 		return "Potion of " + DG.wiki(DG.drawOne(DG.stock.potions));
 	},
-	randomMinorMagicItem: function (treasureLevel) { // will need much more detail later and more items in big hoards
+	randomMinorMagicItem: function(treasureLevel) { // will need much more detail later and more items in big hoards
 		var item = DG.wiki(DG.drawOne(DG.stock.minorMagicItems));
 		return item;
 	},
-	sword: function (treasureLevelArg) {
+	sword: function(treasureLevelArg) {
 		var treasureLevel = treasureLevelArg || DG.treasureLevel
 		var sword = DG.drawOne(DG.stock.swords);
 		var bonus = 1;
@@ -766,7 +766,7 @@ var DG = {
 
 		return sword;
 	},
-	weapon: function (treasureLevelArg) {
+	weapon: function(treasureLevelArg) {
 		var treasureLevel = treasureLevelArg || DG.treasureLevel
 		var weapon = DG.drawOne(DG.stock.weapons);
 		var bonus = 1;
@@ -793,7 +793,7 @@ var DG = {
 
 		return weapon;
 	},
-	armor: function (treasureLevelArg) {
+	armor: function(treasureLevelArg) {
 		var treasureLevel = treasureLevelArg || DG.treasureLevel
 		var armor = DG.drawOne(DG.stock.armor);
 
@@ -820,19 +820,19 @@ var DG = {
 
 		return armor;
 	},
-	wand: function (treasureLevel) {
+	wand: function(treasureLevel) {
 		var wand = "Wand of " + DG.wiki(DG.drawOne(DG.stock.wands));
 		return wand;
 	},
-	ring: function (treasureLevel) {
+	ring: function(treasureLevel) {
 		var ring = "Ring of " + DG.wiki(DG.drawOne(DG.stock.rings));
 		return ring;
 	},
-	miscMagicItem: function (treasureLevel) {
+	miscMagicItem: function(treasureLevel) {
 		var misc = DG.wiki(DG.drawOne(DG.stock.miscellaneous));
 		return misc;
 	},
-	staff: function (treasureLevel) {
+	staff: function(treasureLevel) {
 		//powerful staves need to be less frequent, so swap in wands for most
 		var staff = "";
 		if (treasureLevel > 3) {
@@ -842,31 +842,31 @@ var DG = {
 		}
 		return staff;
 	},
-	book: function (treasureLevel) {
+	book: function(treasureLevel) {
 		var book = DG.wiki(DG.drawOne(DG.stock.books));
 		return book;
 	},
-	scroll: function (treasureLevel) {
+	scroll: function(treasureLevel) {
 		var scroll = DG.wiki(DG.drawOne(DG.stock.scrolls));
 		return scroll;
 	},
-	trinket: function (treasureLevel) {
+	trinket: function(treasureLevel) {
 		var trinket = DG.drawOne(DG.stock.trinkets);
 		return trinket;
 	},
-	oneHandWeapon: function () {
+	oneHandWeapon: function() {
 		return DG.drawOne(DG.stock.oneHandWeapons)
 	},
-	twoHandWeapon: function () {
+	twoHandWeapon: function() {
 		return DG.drawOne(DG.stock.twoHandWeapons)
 	},
-	throwingWeapon: function () {
+	throwingWeapon: function() {
 		return DG.drawOne(DG.stock.throwingWeapons)
 	},
-	missileWeapon: function () {
+	missileWeapon: function() {
 		return DG.drawOne(DG.stock.missileWeapons)
 	},
-	randomTrap: function (dungeonLevel) {
+	randomTrap: function(dungeonLevel) {
 		// will tie to dungeonLevel later
 		var trap = DG.drawOne(DG.stock.traps);
 		if (DG.rollTwo()) {
@@ -879,18 +879,18 @@ var DG = {
 		return "Tp: " + trap + "<br>";
 	},
 
-	populateNotes: function () {
+	populateNotes: function() {
 		return DG.theDungeonName() + '\n\n' + DG.adventureHook() + '\n\n';
 	},
-	nameTheDungeon: function () {
+	nameTheDungeon: function() {
 		var dungeonName = DG.wiki(DG.drawOne(DG.names.dungeonNames));
 		DG.data.dungeonName = dungeonName;
 		return dungeonName;
 	},
-	theDungeonName: function () {
+	theDungeonName: function() {
 		return DG.data.dungeonName;
 	},
-	updateSettlementsData: function (settlements) {
+	updateSettlementsData: function(settlements) {
 		// need to convert saved data structure settlements listings to array of strings
 		// while keeping newer saved strings as strings
 		// so settlements can be added manually
@@ -906,7 +906,7 @@ var DG = {
 		DG.data.settlements = convertedSettlements;
 	},
 
-	settlementsNote: function () {
+	settlementsNote: function() {
 		if (DG.data.settlements.length < 3) {
 			DG.newSettlementName();
 			DG.newSettlementName();
@@ -922,7 +922,7 @@ var DG = {
 		}
 		return note;
 	},
-	organizationsNote: function () {
+	organizationsNote: function() {
 		if (DG.data.organizations.length < 3) {
 			DG.newAffiliationName('c');
 			DG.newAffiliationName('c');
@@ -934,7 +934,7 @@ var DG = {
 		}
 		return note;
 	},
-	wanderingMonstersNote: function () {
+	wanderingMonstersNote: function() {
 		var monsterList = "";
 		var monsterCount = Math.round(DG.data.nodes.length / 6) + 1;
 		if (DG.rollThree()) {
@@ -949,7 +949,7 @@ var DG = {
 		}
 		return monsterList;
 	},
-	monsterRelationsNote: function () {
+	monsterRelationsNote: function() {
 		var relationsList = "";
 		var relationship = "";
 		var monster = {};
@@ -973,7 +973,7 @@ var DG = {
 		// concatenate the phrase and add it to the list
 		return relationsList;
 	},
-	newRelationship: function (monster) {
+	newRelationship: function(monster) {
 		var target = {};
 		var relationship = "";
 		var target = {};
@@ -1010,7 +1010,7 @@ var DG = {
 	}
 };
 
-DG.replaceText = function (textFrom, textTo) {
+DG.replaceText = function(textFrom, textTo) {
 	var len = DG.data.nodes.length;
 
 	function replaceAll(findVal, replaceVal, str) {
@@ -1035,14 +1035,14 @@ DG.replaceText = function (textFrom, textTo) {
 	DG.fillKey();
 };
 
-DG.adventureHook = function () {
+DG.adventureHook = function() {
 	return DG.wiki(DG.drawOne(DG.stock.adventureHooks))
 }
 
-DG.randomSettlement = function () {
+DG.randomSettlement = function() {
 	return DG.settlementName("c");
 };
 
-DG.randomOrganization = function () {
+DG.randomOrganization = function() {
 	return DG.drawOne(DG.data.organizations);
 };

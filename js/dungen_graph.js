@@ -46,7 +46,7 @@ DG.defaultStyle = {
 };
 
 // Room Contents table -------------------------------------------------
-DG.fillKey = function () {
+DG.fillKey = function() {
 	//This function will render out the labels and descriptions from DG.data.nodes into table
 	$('#roomContents tbody').empty();
 
@@ -72,13 +72,13 @@ DG.fillKey = function () {
 	});
 };
 
-DG.findInArrayById = function (id, arrayToSearch) {
-	return $.grep(arrayToSearch, function (e) {
+DG.findInArrayById = function(id, arrayToSearch) {
+	return $.grep(arrayToSearch, function(e) {
 		return e.id == id;
 	})[0];
 };
 // Dig a dungeon ---------------------------------------------------------
-DG.digDungeon = function (locationType) {
+DG.digDungeon = function(locationType) {
 	let selectedSize = $('input[name="lnf-size"]:checked').val().split(',').map(x => parseInt(x));
 	let dungeonLevelSelected = $('input[name="lnf-level"]:checked').val();
 	let selectedPattern = $('input[name="lnf-pattern"]:checked').val();
@@ -131,7 +131,7 @@ DG.digDungeon = function (locationType) {
 	DG.ui.populateNotesFields();
 };
 
-DG.loadMapBackground = function (imgSource='') {
+DG.loadMapBackground = function(imgSource='') {
 	imgSource = imgSource || DG.ui.getMapBackground();
 	if (imgSource) {
 		DG.data.imageSource = imgSource;
@@ -141,14 +141,14 @@ DG.loadMapBackground = function (imgSource='') {
 
 // Nodes and Linkage ------------------------------------------------------------------------
 
-DG.makeRooms = function () {
+DG.makeRooms = function() {
 	DG.setBaseMonsters();
 	for (var i = 0; i < DG.roomCount; i++) {
 		DG.data.nodes[i] = DG.makeNode(i, DG.nameNode(i + 1));
 	}
 };
 
-DG.makeEdge = function (startNode, endNode) {
+DG.makeEdge = function(startNode, endNode) {
 	if (startNode === undefined) {
 		return "error"
 	}
@@ -166,13 +166,13 @@ DG.makeEdge = function (startNode, endNode) {
 	};
 };
 
-DG.linksOnNode = function (nodeId) {
-	return edges = DG.data.edges.filter(function (edge) {
+DG.linksOnNode = function(nodeId) {
+	return edges = DG.data.edges.filter(function(edge) {
 		return (edge.from === nodeId || edge.to === nodeId);
 	});
 };
 
-DG.linkNodes = function (startEdge, endEdge) {
+DG.linkNodes = function(startEdge, endEdge) {
 	var edge = DG.makeEdge(startEdge, endEdge);
 	if (edge === "error") {
 		console.log("attempting to link undefined node");
@@ -181,7 +181,7 @@ DG.linkNodes = function (startEdge, endEdge) {
 	}
 };
 
-DG.makeNode = function (id, label, x, y) {
+DG.makeNode = function(id, label, x, y) {
 	var border = DG.data.style.border,
 		borderWidth = DG.data.style.borderWidth,
 		borderRadius = DG.data.style.borderRadius,
@@ -229,9 +229,9 @@ DG.makeNode = function (id, label, x, y) {
 	};
 };
 
-DG.allNodeIds = function () {
+DG.allNodeIds = function() {
 	var nodeIds = [];
-	DG.data.nodes.forEach(function (node) {
+	DG.data.nodes.forEach(function(node) {
 		nodeIds.push(node.id);
 	});
 	return nodeIds;
@@ -251,7 +251,7 @@ DG.drawOptions = {
 	manipulation: {
 		enabled: true,
 		initiallyActive: false,
-		addNode: function (data, callback) {
+		addNode: function(data, callback) {
 			/** data = {id: random unique id,
 						*           label: new,
 						*           x: x position of click (canvas space),
@@ -272,7 +272,7 @@ DG.drawOptions = {
 
 			callback(newData);  // call the callback to add a node.
 		},
-		editNode: function (data, callback) {
+		editNode: function(data, callback) {
 			/** data = {id:...,
 						*           label: ...,
 						*           group: ...,
@@ -292,10 +292,10 @@ DG.drawOptions = {
 			// all fields normally accepted by a node can be used.
 			DG.nodeDialog(newData, callback);
 		},
-		editEdge: function (data, callback) {
+		editEdge: function(data, callback) {
 			DG.edgeDialog(data, callback);
 		},
-		addEdge: function (data, callback) {
+		addEdge: function(data, callback) {
 			// data = {from: nodeId1, to: nodeId2};
 			var newData = {};
 			for (var attrname in data) {
@@ -307,7 +307,7 @@ DG.drawOptions = {
 			// check or alter data as you see fit.
 			callback(newData);       // call the callback to connect the nodes.
 		},
-		deleteNode: function (data, callback) {
+		deleteNode: function(data, callback) {
 			//   data = {nodes: [selectedNodeIds], edges: [selectedEdgeIds]};
 			var newData = data; // alter the data as you want.
 			//  the same data structure is required.
@@ -317,7 +317,7 @@ DG.drawOptions = {
 			DG.fillKey();
 			callback(newData);  // call the callback to delete the objects.
 		},
-		deleteEdge: function (data, callback) {
+		deleteEdge: function(data, callback) {
 			// duping deleteNode in translation from 3.6 to 4.4 for now, probably needs revision
 			//   data = {nodes: [selectedNodeIds], edges: [selectedEdgeIds]};
 			var newData = data; // alter the data as you want.
@@ -330,16 +330,16 @@ DG.drawOptions = {
 	}
 };
 
-DG.initNetwork = function () {
+DG.initNetwork = function() {
 	var data;
 	DG.nodesDataSet = new vis.DataSet(DG.data.nodes);
-	DG.nodesDataSet.on('*', function (event, properties, senderId) {
+	DG.nodesDataSet.on('*', function(event, properties, senderId) {
 		DG.data.nodes = DG.nodesDataSet.get();
 		DG.data.edges = DG.edgesDataSet.get();
 		DG.fillKey();
 	});
 	DG.edgesDataSet = new vis.DataSet(DG.data.edges);
-	DG.edgesDataSet.on('*', function (event, properties, senderId) {
+	DG.edgesDataSet.on('*', function(event, properties, senderId) {
 		DG.data.edges = DG.edgesDataSet.get();
 		DG.fillKey();
 	});
@@ -350,11 +350,11 @@ DG.initNetwork = function () {
 
 	DG.network.on('click', evt => {
 		if (!DG.drawOptions.interaction.dragNodes && evt.edges.length == 0 && evt.nodes.length == 0) {
-			DG.drawOptions.manipulation.addNode(evt.pointer.canvas, function () {/*EMPTY CALLBACK FOR NOW*/ });
+			DG.drawOptions.manipulation.addNode(evt.pointer.canvas, function() {/*EMPTY CALLBACK FOR NOW*/ });
 		}
 	});
 
-	DG.network.on("dragEnd", function (event) {
+	DG.network.on("dragEnd", function(event) {
 		if (event.nodes.length == 1) {
 			var eventNodeId = event.nodes[0]; // may be array position not ID
 			var node = DG.network.body.nodes[eventNodeId];
@@ -365,16 +365,16 @@ DG.initNetwork = function () {
 		}
 	});
 
-	DG.network.on("initRedraw", function (event) {
+	DG.network.on("initRedraw", function(event) {
 		DG.network.moveTo({ position: { x: 0, y: 0 }, scale: 1.0 });
 	});
 };
 
-DG.nameNode = function (nodeNum) {
+DG.nameNode = function(nodeNum) {
 	return nodeNum + ': ' + DG.randomNodeLabel();
 };
 
-DG.randomNodeLabel = function () {
+DG.randomNodeLabel = function() {
 	var nodeLabel;
 	if (DG.data.locationType == "wilds") {
 		return this.drawOne(this.wild.nodeLabels);
@@ -388,7 +388,7 @@ DG.randomNodeLabel = function () {
 	return DG.drawOne(DG.stock.nodeLabels).label;
 };
 
-DG.randomEdgeLabel = function () {
+DG.randomEdgeLabel = function() {
 	if (DG.data.locationType == "wilds") {
 		return this.drawOne(this.wild.edgeLabels);
 	}

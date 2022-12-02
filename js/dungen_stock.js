@@ -1550,7 +1550,7 @@ DG.stock = {
 		'Flies to hand',
 		'Cursed'
 	],
-	weaponSet: function () {
+	weaponSet: function() {
 		return DG.wiki(DG.drawOne(DG.stock.weaponSets));
 	},
 	weaponSets: ["{{oneHandWeapon}} and Shield",

@@ -2,7 +2,7 @@
 
 // link strategies  --------------------------------------------------------------------
 DG.linkStrats = {
-	branchLink: function (roomIds) {
+	branchLink: function(roomIds) {
 		var nodes = roomIds.length;
 		var linkedNodes = [];
 		var unlinkedNodes = roomIds.slice();
@@ -18,14 +18,14 @@ DG.linkStrats = {
 			toLink = linkedNodes[DG.rollDie(0, linkedNodes.length - 1)];
 		}
 	},
-	linearLink: function (roomIds) {
+	linearLink: function(roomIds) {
 		for (var i = 0; i < roomIds.length - 1; i++) {
 			var startEdge = i;
 			var endEdge = startEdge + 1;
 			DG.linkNodes(startEdge, endEdge);
 		}
 	},
-	randomLink: function (linksToMake) {
+	randomLink: function(linksToMake) {
 		for (var i = 0; i < linksToMake; i++) {
 			var startEdge = DG.rollDie(0, DG.roomCount - 1);
 			var endEdge = DG.rollOther(0, DG.roomCount - 1, startEdge);
@@ -33,25 +33,25 @@ DG.linkStrats = {
 		}
 	},
 
-	randomAllLink: function (linksToMake) {
+	randomAllLink: function(linksToMake) {
 		DG.linkStrats.randomLink(linksToMake);
 		var nodes = DG.allNodeIds().slice();
 
 		var linkedNodes = [];
-		DG.data.edges.forEach(function (edge) {
+		DG.data.edges.forEach(function(edge) {
 			linkedNodes.push(edge["from"])
 		});
-		DG.data.edges.forEach(function (edge) {
+		DG.data.edges.forEach(function(edge) {
 			linkedNodes.push(edge["to"])
 		});
 
 		var unlinkedNodes = nodes.remove.apply(nodes, linkedNodes);
 
-		unlinkedNodes.map(function (node) {
+		unlinkedNodes.map(function(node) {
 			DG.linkNodes(node, (linkedNodes.pop() || 1));
 		});
 	},
-	trianglesLink: function (roomIds) {
+	trianglesLink: function(roomIds) {
 		var nodesCount = roomIds.length;
 		var unlinkedNodes = roomIds.slice();
 		var linkedNodes = [];
@@ -70,11 +70,11 @@ DG.linkStrats = {
 			//DG.linkNodes(triangles[i][0],triangles[i-1][2]);
 			//DG.linkNodes(triangles[i][1],triangles[i-1][2]);
 		}
-		unlinkedNodes.map(function (node) {
+		unlinkedNodes.map(function(node) {
 			DG.linkNodes(node, node - 1)
 		});
 	},
-	gridLink: function () {
+	gridLink: function() {
 		var rowLength = Math.floor(Math.sqrt(DG.roomCount)) + DG.rollDie(0, 3);
 		var gridArray = [[]];
 		var gridRow = 0;
