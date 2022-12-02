@@ -302,6 +302,10 @@ DG.view = {
 			href: canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'),
 		})[0].click();
 	},
+
+	reskin: function () {
+		DG.replaceText($('#reskinModal #reskinTextFrom').val(), $('#reskinModal #reskinTextTo').val());
+	}
 };
 
 // Arguments to the Vis.Network creation call ----------------------------------------------
